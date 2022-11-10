@@ -17,10 +17,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 export const Login = () => {
 
   const navigate = useNavigate();
-  const email = useRef<TextFieldProps>(null);
+  const name = useRef<TextFieldProps>(null);
   const pass = useRef<TextFieldProps>(null);
   const [ showPass, setShowPass ] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [ text, setText ] = useState("");
   const [ cookies, setCookie, removeCookie ] = useCookies([ "username", "password" ]);
 
@@ -28,11 +28,8 @@ export const Login = () => {
     // check if username and password exist and match if so redirect to home
     if ( cookies.username && cookies.password ) {
       console.log(cookies.username + " " + cookies.password);
-      checkUser(atob(cookies.username), atob(cookies.password)).then(( res ) => {
-        if ( res ) {
-          navigate("/home");
-        }
-      });
+      // trust the cookies bro
+      navigate("/home");
     }
   }, [ cookies ]);
 
@@ -55,7 +52,7 @@ export const Login = () => {
 
   return (
     <LoginContainer>
-      <TextField inputRef={ email } label={ "EMAIL" } variant={ "filled" } sx={ { width: 360 } }/>
+      <TextField inputRef={ name } label={ "NAME" } variant={ "filled" } sx={ { width: 360 } }/>
       <TextField type={ showPass ? "text" : "password" } inputRef={ pass } label={ "PASSWORD" } variant={ "filled" }
                  InputProps={ {
                    endAdornment: <InputAdornment position="end">
@@ -70,9 +67,9 @@ export const Login = () => {
                    </InputAdornment>
                  } } sx={ { width: 360 } }/>
       <ButtonProgress onClick={ async () => {
-        const res = await checkUser(email.current!.value as string, pass.current!.value as string);
+        const res = await checkUser(name.current!.value as string, pass.current!.value as string);
         if ( res ) {
-          setCookie("username", btoa(email.current!.value as string), { path: "/" });
+          setCookie("username", btoa(name.current!.value as string), { path: "/" }); // b64 such security :))
           setCookie("password", btoa(pass.current!.value as string), { path: "/" });
         } else {
           throw new Error("Invalid username or password");
@@ -84,9 +81,9 @@ export const Login = () => {
         handleOpen();
       } } text="LOGIN" variant={ "contained" } sx={ { width: 360 } }/>
       <ButtonProgress onClick={ async () => {
-        const res = await createUser(email.current!.value as string, pass.current!.value as string);
+        const res = await createUser(name.current!.value as string, pass.current!.value as string);
         if ( res[0] ) {
-          setCookie("username", btoa(email.current!.value as string), { path: "/" });
+          setCookie("username", btoa(name.current!.value as string), { path: "/" });
           setCookie("password", btoa(pass.current!.value as string), { path: "/" });
         } else {
           throw new Error(res[1]);

@@ -1,9 +1,7 @@
 import { Container } from "./Home.styles";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
-import { TextFieldProps } from "@mui/material";
+import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { checkUser, createUser } from "../../utils/utils";
 import { ButtonProgress } from "../../components/input/ButtonProgress";
 
 export const Home = () => {
@@ -16,11 +14,7 @@ export const Home = () => {
     if ( !cookies.username || !cookies.password ) {
       navigate("/");
     } else {
-      checkUser(atob(cookies.username), atob(cookies.password)).then(( res ) => {
-        if ( !res ) {
-          navigate("/");
-        }
-      });
+      // lmao just trust the cookies bro :))))
     }
   }, [ cookies ]);
 
