@@ -9,7 +9,7 @@ import {
   Panel,
   StyledSelect,
   TagsDiv,
-  EditorDiv, NoteItemList
+  EditorDiv, NoteItemList, Title, InfoRow
 } from "./Notes.styles";
 import { Chip, IconButton, InputAdornment, makeStyles, MenuItem, Select, TextFieldProps } from "@mui/material";
 import { TextField } from "../../components/input/TextField";
@@ -42,7 +42,7 @@ export const Notes = () => {
     if ( !cookies.username || !cookies.password ) {
       navigate("/");
     } else {
-      axios.get(`${apiEndpoint}users/${cookies.username}/classes`).then(( response ) => {
+      axios.get(`${apiEndpoint}users/${atob(cookies.username)}/classes`).then(( response ) => {
         if (response.data.hasOwnProperty("classes")) {
           setModules(response.data.classes);
         }
@@ -64,6 +64,7 @@ export const Notes = () => {
   const [ code, setCode ] = React.useState("");
   const [ noteName, setNoteName ] = React.useState("");
   const [ noteToDelete, setNoteToDelete ] = React.useState("");
+  const [ upvoted, setUpvoted ] = React.useState(false);
 
   const handleChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
     setSearch(event.target.value);
@@ -71,7 +72,7 @@ export const Notes = () => {
 
   const updateNotesGet = async ( mod: string ) => {
     if ( mod != "" ) {
-      const res = await axios.get(`${apiEndpoint}users/${cookies.username}/classes/${mod}/notes`);
+      const res = await axios.get(`${apiEndpoint}users/${atob(cookies.username)}/classes/${mod}/notes`);
       const tagsTemp = [];
       for ( let [ key, val ] of Object.entries(res.data.notes) ) {
         // @ts-ignore
@@ -111,7 +112,7 @@ export const Notes = () => {
   };
 
   const handleDelete = () => {
-    axios.delete(`${apiEndpoint}users/${cookies.username}/classes/${selectedModule}/notes/${noteToDelete}`).then(( response ) => {
+    axios.delete(`${apiEndpoint}users/${atob(cookies.username)}/classes/${selectedModule}/notes/${noteToDelete}`).then(( response ) => {
       setOpenDelete(false);
       setSelectedNote("");
       setCode("");
@@ -121,7 +122,7 @@ export const Notes = () => {
 
   const handleNewNote = () => {
     if ( selectedModule != "" && noteName != "" ) {
-      axios.put(`${apiEndpoint}users/${cookies.username}/classes/${selectedModule}/notes`, {
+      axios.put(`${apiEndpoint}users/${atob(cookies.username)}/classes/${selectedModule}/notes`, {
         name: noteName,
         markdown: `# ${noteName}`,
         tags: selectedTagsDialog
@@ -169,22 +170,24 @@ export const Notes = () => {
   for ( let [ key, val ] of ooh ) {
     items.push(
       <NoteListItem onClick={ () => {
-        axios.get(`${apiEndpoint}users/${cookies.username}/classes/${selectedModule}/notes/${key}`).then(( response ) => {
+        axios.get(`${apiEndpoint}users/${atob(cookies.username)}/classes/${selectedModule}/notes/${key}`).then(( response ) => {
           if ( selectedNote != "" ) {
-            axios.patch(`${apiEndpoint}users/${cookies.username}/classes/${selectedModule}/notes`, {
+            axios.patch(`${apiEndpoint}users/${atob(cookies.username)}/classes/${selectedModule}/notes`, {
               "markdown": code,
               "name": selectedNote,
               "tags": notes[selectedNote].tags
             }).then(( response1 ) => {
               setCode(response.data.markdown);
               setSelectedNote(key);
+              setUpvoted(notes[selectedNote].upVotes.includes(atob(cookies.username)));
             });
           } else {
             setCode(response.data.markdown);
             setSelectedNote(key);
+            setUpvoted(notes[selectedNote].upVotes.includes(atob(cookies.username)));
           }
         });
-      } } delete={() => {
+      } } upvotes={notes[key].upVotes.length} delete={() => {
         setOpenDelete(true);
         setNoteToDelete(key);
       }} name={ key } tags={ (val as { tags: string[] }).tags }/>
@@ -222,6 +225,36 @@ export const Notes = () => {
           <NoteItemList>{ items }</NoteItemList>
         </Panel>
         { selectedNote != "" && <EditorDiv>
+          <InfoRow>
+            <Title>{selectedNote}</Title>
+            <FavoriteIcon sx={{ cursor: "pointer", color: upvoted ? "red" : "white"}} onClick={() => {
+              if (!upvoted) {
+                console.log(notes[selectedNote]);
+                axios.post(`${ apiEndpoint }users/${ atob(cookies.username) }/classes/${ selectedModule }/notes/${ selectedNote }/upvote`);
+                setUpvoted(true);
+                setNotes(( n: any) => {
+                  const temp = { ...n };
+                  temp[selectedNote].upVotes.push(atob(cookies.username));
+                  return temp;
+                })
+              } else {
+                axios.delete(`${ apiEndpoint }users/${ atob(cookies.username) }/classes/${ selectedModule }/notes/${ selectedNote }/upvote`);
+                setUpvoted(false);
+                setNotes(( n: any) => {
+                  const temp = { ...n };
+                  temp[selectedNote].upVotes = temp[selectedNote].upVotes.filter((v: string) => v !== atob(cookies.username));
+                  return temp;
+                })
+              }
+            } }/>
+            <SaveIcon onClick={() => {
+              axios.patch(`${apiEndpoint}users/${atob(cookies.username)}/classes/${selectedModule}/notes`, {
+                "markdown": code,
+                "name": selectedNote,
+                "tags": notes[selectedNote].tags
+              });
+            } }/>
+          </InfoRow>
           <CodeEditorStyled
             height={ window.innerHeight - 60 }
             value={ code }

@@ -7,6 +7,7 @@ type NoteProps = {
   tags: string[],
   onClick: Function,
   delete: Function,
+  upvotes: number,
 }
 
 export const NoteListItem = (props: NoteProps) => {
@@ -24,6 +25,7 @@ export const NoteListItem = (props: NoteProps) => {
       <Title>{props.name}</Title>
       <Description>{chips}</Description>
       <DeleteIcon onClick={() => props.delete()} sx={{ size: "small" }}/>
+      <Upvotes>{`${props.upvotes} ❤️`}</Upvotes>
     </Container>
   );
 }
@@ -57,4 +59,9 @@ const Description = styled.div`
   margin: 10px 0 5px 10px;
   gap: 4px;
   flex-wrap: wrap;
+`;
+
+const Upvotes = styled.p`
+  font-size: 12px;
+  margin: 0 0 0 13px;
 `;

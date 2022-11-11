@@ -79,6 +79,20 @@ const NoteItemList = styled.div`
   width: 280px;
 `;
 
+const InfoRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px 10px 20px;
+`;
+
+const Title = styled.p`
+  font-size: 20px;
+  flex: 1;
+`;
+
 export {
   Container,
   MainContainer,
@@ -88,4 +102,6 @@ export {
   TagsDiv,
   EditorDiv,
   NoteItemList,
+  InfoRow,
+  Title,
 };

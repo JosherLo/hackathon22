@@ -46,11 +46,7 @@ export const Home = () => {
 
   return (
     <Container>
-<<<<<<< HEAD
       <Header logoText title={""} name={ cookies.username ? atob(cookies.username) : "" } logout={ () => {
-=======
-      <Header title={"Flow"} name={ cookies.username ? atob(cookies.username) : "" } logout={ () => {
->>>>>>> 626d2788fb5b94918be366adf61b1d1a25d040f3
         removeCookie("username");
         removeCookie("password");
       } }/>
