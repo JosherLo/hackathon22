@@ -14,11 +14,13 @@ export const AnswerTile = (props: AnswerTileProps) => {
     <Container accepted={props.accepted}>
       <TitleDiv>
         <Title>{props.person}</Title>
-        {props.showCheck && (
           <People>
+        {(props.showCheck && (
+
             <CheckIcon cursor={"pointer"} onClick={props.doOnAccept} />
+
+        )) || props.accepted && <em>(accepted)</em>}
           </People>
-        )}
       </TitleDiv>
       <Description>"{props.description}"</Description>
     </Container>
@@ -30,7 +32,7 @@ const Container = styled.div<{ accepted?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: ${(props) => (props.accepted ? "83f28f" : "#5f5f5f")};
+  background-color: ${(props) => (props.accepted ? "#299617" : "#5f5f5f")};
   border-radius: 15px;
   padding: 10px 20px;
 `;

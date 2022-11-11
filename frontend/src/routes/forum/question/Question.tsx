@@ -55,8 +55,9 @@ export default function Question() {
 
     const tempAnswers = [...questionData.answers];
     if (questionData.solved)
-      tempAnswers.unshift(tempAnswers.splice(questionData.solveAnswerId, 1));
+      tempAnswers.unshift(tempAnswers.splice(questionData.solveAnswerId, 1)[0]);
 
+    console.log(tempAnswers)
     setAnswers(tempAnswers);
   }, [questionData]);
 
@@ -144,11 +145,17 @@ export default function Question() {
                         key={`${user} ${answer}`}
                         person={user}
                         description={answer}
-                        showCheck={!questionData.solved}
+                        accepted={questionData.solved && index === 0}
+                        showCheck={questionData.asker === username && !questionData.solved}
                         doOnAccept={() => {
-                          const tempQData = { ...questionData };
-                          tempQData.solveAnswerId = index;
-                          setQuestionData(tempQData);
+                            axios.post(`${apiEndpoint}users/${username}/classes/${className}/questions/${id}/acceptAnswer`, {
+                                answerId: index
+                            }).then(() => {
+                                const tempQData = {...questionData};
+                                tempQData.solveAnswerId = index;
+                                tempQData.solved = true;
+                                setQuestionData(tempQData);
+                            })
                         }}
                       />
                     );
