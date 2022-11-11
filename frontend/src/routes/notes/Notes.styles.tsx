@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { Select } from "@mui/material";
+import MDEditor from "@uiw/react-md-editor";
 
 const Container = styled.div`
   width: 100vw;
@@ -18,29 +20,63 @@ const MainContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  position: fixed;
 `;
 
-const ProjectContainer = styled.div`
-  width: calc(100vw - 80px);
-  height: 200px;
+const Panel = styled.div`
+  width: 280px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: scroll;
-  overflow-x: clip;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  border: 1px solid black;
+  height: calc(100vh - 60px);
 `;
 
-const IconsContainer = styled.div`
-  width: 100vw;
+const StyledSelect = styled(Select)`
+  margin: 2px 10px;
+`;
+
+const CodeEditorStyled = styled(MDEditor)`
+  width: calc(100vw - 280px);
+  position: fixed;
+  height: calc(100vh - 60px);
+  overflow: scroll;
+`;
+
+const Tag = styled.p`
+  font-size: 12px;
+  padding: 2px 5px;
+  background-color: #5f5f5f;
+`;
+
+const TagsDiv = styled.div`
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 7px;
+  width: 300px;
   align-items: center;
-  gap: 80px;
+  justify-content: center;
+`;
+
+const EditorDiv = styled.div`
+  width: calc(100vw - 280px);
+  height: calc(100vh - 60px);
+  position: fixed;
+  bottom: 0;
+  right: 0;
 `;
 
 export {
   Container,
   MainContainer,
-  ProjectContainer,
-  IconsContainer,
+  Panel,
+  StyledSelect,
+  CodeEditorStyled,
+  Tag,
+  TagsDiv,
+  EditorDiv,
 };

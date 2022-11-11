@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { Login } from "./routes/login/Login";
 import { Home } from "./routes/home/Home";
+import { Notes } from "./routes/notes/Notes";
 
 const darkTheme = createTheme({
   palette: {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "home",
     element: <Home />
+  },
+  {
+    path: "notes",
+    element: <Notes />
   },
   {
     path: "*", // catches all paths that are not matched yet
