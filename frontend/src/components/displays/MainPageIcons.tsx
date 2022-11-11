@@ -6,14 +6,19 @@ import { useNavigate } from "react-router-dom";
 type MainPageIconsProps = {
   icon: ReactElement,
   title: string,
-  link: string
+  link: string | null,
+  onClick: Function | null,
 }
 
 export const MainPageIcons = (props: MainPageIconsProps) => {
   const navigate = useNavigate();
   return (
     <Container onClick={() => {
-      navigate(props.link);
+      if (props.link) {
+        navigate(props.link);
+      } else {
+        props.onClick!();
+      }
     }}>
       <UnderlineTitle title={props.title}/>
       {props.icon}

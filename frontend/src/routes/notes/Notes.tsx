@@ -25,6 +25,9 @@ import Dialog from "@mui/material/Dialog";
 import { checkUser } from "../../utils/utils";
 import { ButtonProgress } from "../../components/input/ButtonProgress";
 import AddIcon from '@mui/icons-material/Add';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import SaveIcon from '@mui/icons-material/Save';
+import { commands } from '@uiw/react-md-editor';
 
 export const Notes = () => {
 
@@ -32,23 +35,26 @@ export const Notes = () => {
   const newTag = useRef<TextFieldProps>(null);
   const [ cookies, setCookie, removeCookie ] = useCookies([ "username", "password" ]);
   const [ open, setOpen ] = useState(false);
+  const [ openDelete, setOpenDelete ] = useState(false);
 
   useEffect(() => {
     // checks if username and password exist and match if not redirect back to home
     if ( !cookies.username || !cookies.password ) {
       navigate("/");
     } else {
-      axios.get(apiEndpoint + "classes").then(( response ) => {
-        setModules(response.data.classes);
+      axios.get(`${apiEndpoint}users/${cookies.username}/classes`).then(( response ) => {
+        if (response.data.hasOwnProperty("classes")) {
+          setModules(response.data.classes);
+        }
       });
     }
   }, [ cookies ]);
 
 
-  const [ modules, setModules ] = React.useState<string[]>([ "CM4131", "BL4131", "MA4132", "PC4132" ]);
+  const [ modules, setModules ] = React.useState<string[]>([]);
   const [ selectedModule, setSelectedModule ] = React.useState<string>("");
   const [ lastSelectedTag, setLastSelectedTag ] = React.useState<string>("");
-  const [ allTags, setAllTags ] = React.useState<string[]>([ "Chapter 1", "Chapter 2", "Chapter 3" ]);
+  const [ allTags, setAllTags ] = React.useState<string[]>([]);
   const [ selectedTags, setSelectedTags ] = React.useState<string[]>([]);
   const [ lastSelectedTagDialog, setLastSelectedTagDialog ] = React.useState<string>("");
   const [ selectedTagsDialog, setSelectedTagsDialog ] = React.useState<string[]>([]);
@@ -57,6 +63,7 @@ export const Notes = () => {
   const [ selectedNote, setSelectedNote ] = React.useState<string>("");
   const [ code, setCode ] = React.useState("");
   const [ noteName, setNoteName ] = React.useState("");
+  const [ noteToDelete, setNoteToDelete ] = React.useState("");
 
   const handleChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
     setSearch(event.target.value);
@@ -64,10 +71,8 @@ export const Notes = () => {
 
   const updateNotesGet = async ( mod: string ) => {
     if ( mod != "" ) {
-      const res = await axios.get(apiEndpoint + "classes/" + mod + "/notes");
-      console.log("hi1");
+      const res = await axios.get(`${apiEndpoint}users/${cookies.username}/classes/${mod}/notes`);
       const tagsTemp = [];
-      console.log(res.data);
       for ( let [ key, val ] of Object.entries(res.data.notes) ) {
         // @ts-ignore
         for ( let tag of val.tags ) {
@@ -76,7 +81,6 @@ export const Notes = () => {
           }
         }
       }
-      console.log(tagsTemp);
       setAllTags(tagsTemp);
       setNotes(res.data.notes);
     }
@@ -86,6 +90,7 @@ export const Notes = () => {
     if (newTag.current!.value != "") {
       // @ts-ignore
       setSelectedTagsDialog([...selectedTagsDialog, newTag.current!.value]);
+      newTag.current!.value = "";
     }
   }
 
@@ -97,16 +102,38 @@ export const Notes = () => {
     setOpen(false);
   };
 
+  const handleOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const handleDelete = () => {
+    axios.delete(`${apiEndpoint}users/${cookies.username}/classes/${selectedModule}/notes/${noteToDelete}`).then(( response ) => {
+      setOpenDelete(false);
+      setSelectedNote("");
+      setCode("");
+      updateNotesGet(selectedModule);
+    });
+  };
+
   const handleNewNote = () => {
     if ( selectedModule != "" && noteName != "" ) {
-      axios.put(apiEndpoint + "classes/" + selectedModule + "/notes", {
+      axios.put(`${apiEndpoint}users/${cookies.username}/classes/${selectedModule}/notes`, {
         name: noteName,
         markdown: `# ${noteName}`,
         tags: selectedTagsDialog
       }).then(( response ) => {
-        console.log(response);
-        updateNotesGet(selectedModule);
-        setOpen(false);
+        updateNotesGet(selectedModule).then((res) => {
+          setSelectedTagsDialog([]);
+          setLastSelectedTagDialog("");
+          setNoteName("");
+          setCode(`# ${noteName}`);
+          setSelectedNote(noteName);
+          setOpen(false);
+        });
       });
     }
   }
@@ -142,9 +169,9 @@ export const Notes = () => {
   for ( let [ key, val ] of ooh ) {
     items.push(
       <NoteListItem onClick={ () => {
-        axios.get(apiEndpoint + `classes/${ selectedModule }/notes/${ key }`).then(( response ) => {
+        axios.get(`${apiEndpoint}users/${cookies.username}/classes/${selectedModule}/notes/${key}`).then(( response ) => {
           if ( selectedNote != "" ) {
-            axios.patch(apiEndpoint + `classes/${ selectedModule }/notes`, {
+            axios.patch(`${apiEndpoint}users/${cookies.username}/classes/${selectedModule}/notes`, {
               "markdown": code,
               "name": selectedNote,
               "tags": notes[selectedNote].tags
@@ -157,13 +184,16 @@ export const Notes = () => {
             setSelectedNote(key);
           }
         });
-      } } name={ key } tags={ (val as { tags: string[] }).tags }/>
+      } } delete={() => {
+        setOpenDelete(true);
+        setNoteToDelete(key);
+      }} name={ key } tags={ (val as { tags: string[] }).tags }/>
     );
   }
 
   return (
     <Container>
-      <Header title={ "NOTES" } name={ atob(cookies.username) } logout={ () => {
+      <Header title={ "NOTES" } name={ cookies.username ? atob(cookies.username) : "" } logout={ () => {
         removeCookie("username");
         removeCookie("password");
       } }/>
@@ -198,6 +228,12 @@ export const Notes = () => {
             onChange={ ( c ) => {
               setCode(c!);
             } }
+            extraCommands={[
+              commands.codeEdit,
+              commands.codeLive,
+              commands.codePreview,
+              commands.divider,
+            ]}
           />
         </EditorDiv> }
       </MainContainer>
@@ -243,6 +279,21 @@ export const Notes = () => {
         <DialogActions>
           <Button onClick={ handleNewNote } autoFocus>Ok</Button>
           <Button onClick={ handleClose } autoFocus>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openDelete}
+        onClose={handleCloseDelete}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Delete note</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">Are you sure you want to delete this note?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDelete} autoFocus>Ok</Button>
+          <Button onClick={handleCloseDelete} autoFocus>Delete</Button>
         </DialogActions>
       </Dialog>
     </Container>
