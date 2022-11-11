@@ -6,7 +6,7 @@ import logoHexagon from '../../assets/logoHexagon.svg';
 import logo from '../../assets/logo.svg';
 
 type HeaderProps = {
-  logoText: boolean
+  logoText?: boolean,
   name: string,
   logout: Function,
   title: string
