@@ -33,10 +33,12 @@ const Panel = styled.div`
   left: 0;
   border: 1px solid black;
   height: calc(100vh - 60px);
+  align-items: center;
 `;
 
 const StyledSelect = styled(Select)`
-  margin: 2px 10px;
+  margin: 0 10px;
+  width: 260px;
 `;
 
 const CodeEditorStyled = styled(MDEditor)`
@@ -74,6 +76,7 @@ const NoteItemList = styled.div`
   align-items: center;
   overflow-y: scroll;
   overflow-x: clip;
+  width: 280px;
 `;
 
 export {

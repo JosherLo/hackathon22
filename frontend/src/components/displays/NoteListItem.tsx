@@ -46,4 +46,5 @@ const Description = styled.div`
   flex-direction: row;
   margin: 10px 0 5px 10px;
   gap: 4px;
+  flex-wrap: wrap;
 `;
