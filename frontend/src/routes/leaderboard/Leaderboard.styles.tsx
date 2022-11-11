@@ -24,7 +24,7 @@ const MainContainer = styled.div`
 const LeaderboardHeaderContainer = styled.div`
   width: 100%;
   padding: 10px;
-  border-bottom: 3px solid #646464;
+  border-bottom: 3px solid #6d8b9b;
   display: flex;
   flex-direction: row;
 `;
@@ -96,7 +96,7 @@ const LeaderboardList = styled.table`
   margin-top: 10px;
   padding: 20px 40px;
   width: 100%;
-  border: 3px solid #646464;
+  border: 3px solid #6d8b9b;
   border-radius: 20px;
   justify-content: center;
   align-items: center;

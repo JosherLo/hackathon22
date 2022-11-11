@@ -31,6 +31,8 @@ const ProjectContainer = styled.div`
 `;
 
 const IconsContainer = styled.div`
+  border-top: 3px solid #6d8b9b;
+  padding-top: 50px;
   width: 100vw;
   display: flex;
   justify-content: center;

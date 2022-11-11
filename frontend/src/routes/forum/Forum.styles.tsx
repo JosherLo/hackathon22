@@ -27,7 +27,7 @@ const SelectionPanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  border-bottom: 3px solid #646464;
+  border-bottom: 3px solid #6d8b9b;
 `;
 
 const DropdownPanel = styled.div`
