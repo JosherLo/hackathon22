@@ -1,4 +1,4 @@
-import { Container, IconsContainer, MainContainer, ProjectContainer, } from "./Home.styles";
+import {Container, IconsContainer, MainContainer, ProjectContainer, TitleContainer,} from "./Home.styles";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
@@ -95,7 +95,9 @@ export const Home = () => {
         }}
       />
       <MainContainer>
-        <UnderlineTitle title={"Projects"} />
+        <TitleContainer>
+          <UnderlineTitle title={"Your Projects"} />
+        </TitleContainer>
         <ProjectContainer>
           <Tile
             title={"Title"}
