@@ -5,7 +5,7 @@ type AnswerTileProps = {
   person: string;
   description: string;
   accepted?: boolean;
-  doOnAccept: () => {};
+  doOnAccept: () => void;
   showCheck: boolean;
 };
 
@@ -14,9 +14,11 @@ export const AnswerTile = (props: AnswerTileProps) => {
     <Container accepted={props.accepted}>
       <TitleDiv>
         <Title>{props.person}</Title>
-          {props.showCheck && <People>
-          <CheckIcon cursor={"pointer"} onClick={props.doOnAccept}/>
-        </People>}
+        {props.showCheck && (
+          <People>
+            <CheckIcon cursor={"pointer"} onClick={props.doOnAccept} />
+          </People>
+        )}
       </TitleDiv>
       <Description>"{props.description}"</Description>
     </Container>
@@ -28,7 +30,7 @@ const Container = styled.div<{ accepted?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: ${props => (props.accepted ? "83f28f": "#5f5f5f")};
+  background-color: ${(props) => (props.accepted ? "83f28f" : "#5f5f5f")};
   border-radius: 15px;
   padding: 10px 20px;
 `;

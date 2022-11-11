@@ -97,8 +97,8 @@ export const Home = () => {
         title={""}
         name={cookies.username ? atob(cookies.username) : ""}
         logout={() => {
-          removeCookie("username", {path: "/"});
-          removeCookie("password", {path: "/"});
+          removeCookie("username", { path: "/" });
+          removeCookie("password", { path: "/" });
         }}
       />
       <MainContainer>
