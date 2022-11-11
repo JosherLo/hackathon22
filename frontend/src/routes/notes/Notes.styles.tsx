@@ -31,7 +31,7 @@ const Panel = styled.div`
   position: fixed;
   top: 60px;
   left: 0;
-  border: 1px solid black;
+  border: 1px solid #6d8b9b;
   height: calc(100vh - 60px);
   align-items: center;
   padding: 10px;
@@ -72,7 +72,7 @@ const NoteItemList = styled.div`
   height: 100%;
   flex-direction: column;
   gap: 4px;
-  //justify-content: center;
+  justify-content: center;
   align-items: center;
   overflow-y: scroll;
   overflow-x: clip;
