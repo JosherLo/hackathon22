@@ -39,12 +39,12 @@ notesRouter.put("/:classId(\\d+)", async (req, res) => {
         res.sendStatus(400)
         return
     }
-    if (!bodyData.category) {
-        bodyData.category = "none"
+    if (!bodyData.tags) {
+        bodyData.tags = []
     }
     try {
         fs.writeFileSync(
-            `storage/${classId}/notes/${bodyData.category}-&-${bodyData.name}.md`,
+            `storage/${classId}/notes/${bodyData.name}.md`,
             bodyData.markdown,
             { flag: "wx", encoding: "utf8" }
         )
@@ -53,8 +53,8 @@ notesRouter.put("/:classId(\\d+)", async (req, res) => {
         return
     }
 
+    const noteInfo = { tags: bodyData.tags }
     let manifest = {}
-    manifest[bodyData.category] = [bodyData.name]
 
     try {
         const content = fs.readFileSync(
@@ -72,14 +72,9 @@ notesRouter.put("/:classId(\\d+)", async (req, res) => {
         try {
             fs.mkdirSync(`storage/${classId}/questions`)
         } catch {}
-        manifest = {}
     }
 
-    if (bodyData.category in manifest) {
-        manifest[bodyData.category].push(bodyData.name)
-    } else {
-        manifest[bodyData.category] = [bodyData.name]
-    }
+    manifest[bodyData.name] = noteInfo
 
     await fs.writeFile(
         `storage/${classId}/notes/manifest.json`,
@@ -90,40 +85,54 @@ notesRouter.put("/:classId(\\d+)", async (req, res) => {
     res.sendStatus(200)
 })
 
-notesRouter.patch("/:classId(\\d+)", (req, res) => {
+notesRouter.patch("/:classId(\\d+)", async (req, res) => {
     const classId = req.params.classId
     const bodyData: any = req.body
     if (!bodyData || !bodyData.markdown || !bodyData.name) {
         res.sendStatus(400)
         return
     }
-    if (!bodyData.category) {
-        bodyData.category = "none"
+    if (!bodyData.tags) {
+        bodyData.tags = "none"
     }
-    let code = 200
     try {
         fs.writeFileSync(
-            `storage/${classId}/notes/${bodyData.category}-&-${bodyData.name}.md`,
+            `storage/${classId}/notes/${bodyData.name}.md`,
             bodyData.markdown,
             { flag: "r+", encoding: "utf8" }
         )
+
+        const content = fs.readFileSync(
+            `storage/${classId}/notes/manifest.json`,
+            { encoding: "utf8" }
+        )
+
+        const manifest = JSON.parse(content)
+        manifest[bodyData.name] = { tags: bodyData.tags }
+
+        await fs.writeFile(
+            `storage/${classId}/notes/manifest.json`,
+            JSON.stringify(manifest),
+            (err) => {}
+        )
+
+        res.sendStatus(200)
     } catch {
-        code = 404
+        res.sendStatus(404)
+        return
     }
-    res.sendStatus(code)
 })
 
 notesRouter.get("/:classId(\\d+)/:noteName", (req, res) => {
     const classId = req.params.classId
     const noteName = req.params.noteName
-    const category = req.query.category || "none"
 
     try {
         const markdown = fs.readFileSync(
-            `storage/${classId}/notes/${category}-&-${noteName}.md`,
+            `storage/${classId}/notes/${noteName}.md`,
             { encoding: "utf8" }
         )
-        res.json({ markdown, name: noteName, category })
+        res.json({ markdown, name: noteName })
     } catch {
         res.sendStatus(404)
     }
@@ -132,10 +141,9 @@ notesRouter.get("/:classId(\\d+)/:noteName", (req, res) => {
 notesRouter.delete("/:classId(\\d+)/:noteName", (req, res) => {
     const classId = req.params.classId
     const noteName = req.params.noteName
-    const category = req.query.category || "none"
 
     try {
-        fs.unlinkSync(`storage/${classId}/notes/${category}-&-${noteName}.md`)
+        fs.unlinkSync(`storage/${classId}/notes/${noteName}.md`)
     } catch {
         res.sendStatus(404)
         return
@@ -148,12 +156,7 @@ notesRouter.delete("/:classId(\\d+)/:noteName", (req, res) => {
     })
     const manifest = JSON.parse(content)
 
-    const files: string[] = manifest[category]
-    files.splice(files.indexOf(noteName), 1)
-
-    if (files.length === 0) {
-        delete manifest[category]
-    }
+    delete manifest[noteName]
 
     fs.writeFileSync(
         `storage/${classId}/notes/manifest.json`,
