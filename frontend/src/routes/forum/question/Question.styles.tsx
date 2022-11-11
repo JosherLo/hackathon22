@@ -23,11 +23,30 @@ const MainContainer = styled.div`
 
 const Title = styled.div`
   font-size: 2em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw;
 `;
+
+const UpvoteContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+`
 
 const AnswerHeader = styled.div`
   font-size: 1.5em;
 `;
+
+const AnswerDiv = styled.div`
+  width: 80vw;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+`
 
 const Content = styled.div`
   width: 80vw;
@@ -36,4 +55,4 @@ const Content = styled.div`
   border-radius: 5px;
 `;
 
-export { Container, MainContainer, Title, Content, AnswerHeader };
+export { Container, MainContainer, Title, Content, AnswerHeader, AnswerDiv, UpvoteContainer };

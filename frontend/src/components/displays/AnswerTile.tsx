@@ -1,35 +1,34 @@
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
 import CheckIcon from "@mui/icons-material/Check";
 
-type ProjectTileProps = {
-  title: string;
+type AnswerTileProps = {
+  person: string;
   description: string;
-  people: string;
-  link: string;
+  accepted?: boolean;
+  doOnAccept: () => {};
+  showCheck: boolean;
 };
 
-export const Tile = (props: ProjectTileProps) => {
+export const AnswerTile = (props: AnswerTileProps) => {
   return (
-    <Container>
+    <Container accepted={props.accepted}>
       <TitleDiv>
-        <Title>{props.title}</Title>
-        <People>
-          <CheckIcon />
-        </People>
+        <Title>{props.person}</Title>
+          {props.showCheck && <People>
+          <CheckIcon cursor={"pointer"} onClick={props.doOnAccept}/>
+        </People>}
       </TitleDiv>
-      <Description>{props.description}</Description>
+      <Description>"{props.description}"</Description>
     </Container>
   );
 };
 
-const Container = styled.div`
-  width: calc(100vw - 138px);
-  height: 80px;
+const Container = styled.div<{ accepted?: boolean }>`
+  width: 80vw;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: #5f5f5f;
+  background-color: ${props => (props.accepted ? "83f28f": "#5f5f5f")};
   border-radius: 15px;
   padding: 10px 20px;
 `;
