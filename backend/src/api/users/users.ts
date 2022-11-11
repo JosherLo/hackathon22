@@ -1,7 +1,6 @@
 import { Router } from "express"
 import classesRouter from "../classes/classes"
 import fs from "fs"
-import PerQuestion from "../classes/question/perQuestion"
 
 const userRouter = Router({ mergeParams: true })
 
@@ -11,9 +10,15 @@ userRouter.post("/joinClass", (req, res) => {
     const classId = req.body.class
     const username = req.params.username
 
-    const password = fs.readFileSync(`storage/${classId}/password.txt`, {
-        encoding: "utf8",
-    })
+    let password
+    try {
+        password = fs.readFileSync(`storage/${classId}/password.txt`, {
+            encoding: "utf8",
+        })
+    } catch {
+        res.sendStatus(404)
+        return
+    }
 
     if (req.body.password !== password) {
         res.sendStatus(403)

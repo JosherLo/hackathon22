@@ -11,6 +11,7 @@ import { Login } from "./routes/login/Login";
 import { Home } from "./routes/home/Home";
 import { Notes } from "./routes/notes/Notes";
 import {Leaderboard} from "./routes/leaderboard/Leaderboard";
+import { Forum } from "./routes/forum/forum"
 
 const darkTheme = createTheme({
   palette: {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "leaderboard",
     element: <Leaderboard/>
+  },
+  {
+    path: "forum",
+    element: <Forum />
   },
   {
     path: "*", // catches all paths that are not matched yet
