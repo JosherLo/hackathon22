@@ -9,7 +9,7 @@ import { MainPageIcons } from "../../components/displays/MainPageIcons";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import TextFieldProps from "@mui/material/TextFieldProps";
+import { TextFieldProps } from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import PeopleIcon from "@mui/icons-material/People";
 import AssignmentIcon from "@mui/icons-material/Assignment";
