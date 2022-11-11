@@ -1,33 +1,39 @@
 import styled from "@emotion/styled";
-import { ButtonProgress } from "../input/ButtonProgress";
 import React from "react";
-import LogoutIcon from '@mui/icons-material/Logout';
-import logoHexagon from '../../assets/logoHexagon.svg';
-import logo from '../../assets/logo.svg';
+import LogoutIcon from "@mui/icons-material/Logout";
+import logoHexagon from "../../assets/logoHexagon.svg";
+import logo from "../../assets/logo.svg";
 
 type HeaderProps = {
-  logoText?: boolean,
-  name: string,
-  logout: Function,
-  title: string
+  logoText?: boolean;
+  name: string;
+  logout: Function;
+  title: string;
 };
 
 export const Header = (props: HeaderProps) => {
   return (
     <Container>
       <LogoDiv>
-        <LogoImg src={props.logoText?logo:logoHexagon} alt={"Logo"}/>
+        <LogoImg src={props.logoText ? logo : logoHexagon} alt={"Logo"} />
       </LogoDiv>
       <Title>{props.title}</Title>
       <Name>{props.name}</Name>
-      <Img src={"https://firebasestorage.googleapis.com/v0/b/online-games-8dbbb.appspot.com/o/photos%2Fplaceholder.jpg?alt=media"} alt={"Pfp"}/>
-      <LogoutIconStyled onClick={ async () => {
-        await props.logout();
-      } }/>
-      <Spacer/>
+      <Img
+        src={
+          "https://firebasestorage.googleapis.com/v0/b/online-games-8dbbb.appspot.com/o/photos%2Fplaceholder.jpg?alt=media"
+        }
+        alt={"Pfp"}
+      />
+      <LogoutIconStyled
+        onClick={async () => {
+          await props.logout();
+        }}
+      />
+      <Spacer />
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   width: 100vw;
@@ -42,8 +48,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Name = styled.p`
-`;
+const Name = styled.p``;
 
 const Title = styled.p`
   flex: 1;

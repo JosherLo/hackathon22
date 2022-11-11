@@ -30,25 +30,33 @@ const LeaderboardHeaderContainer = styled.div`
 `;
 
 type TextProps = {
-  flex: number,
-  align: string
+  flex: number;
+  align: string;
 };
 
 const LeaderboardText = styled.p`
-  flex: ${ (props: TextProps) => props.flex };
-  text-align: ${ (props: TextProps) => props.align };
+  flex: ${(props: TextProps) => props.flex};
+  text-align: ${(props: TextProps) => props.align};
 `;
 
 const LeaderboardHeader = () => {
   return (
     <LeaderboardHeaderContainer>
-      <LeaderboardText flex={4} align={"left"}>Name</LeaderboardText>
-      <LeaderboardText flex={2} align={"right"}>Notes Score</LeaderboardText>
-      <LeaderboardText flex={2} align={"right"}>Forum Score</LeaderboardText>
-      <LeaderboardText flex={2} align={"right"}>Total Score</LeaderboardText>
+      <LeaderboardText flex={4} align={"left"}>
+        Name
+      </LeaderboardText>
+      <LeaderboardText flex={2} align={"right"}>
+        Notes Score
+      </LeaderboardText>
+      <LeaderboardText flex={2} align={"right"}>
+        Forum Score
+      </LeaderboardText>
+      <LeaderboardText flex={2} align={"right"}>
+        Total Score
+      </LeaderboardText>
     </LeaderboardHeaderContainer>
-  )
-}
+  );
+};
 
 const LeaderboardItemContainer = styled.div`
   width: 100%;
@@ -58,21 +66,29 @@ const LeaderboardItemContainer = styled.div`
 `;
 
 type ItemProps = {
-  name: string,
-  notesScore: number,
-  forumScore: number
+  name: string;
+  notesScore: number;
+  forumScore: number;
 };
 
 const LeaderboardItem = (props: ItemProps) => {
   return (
     <LeaderboardItemContainer>
-      <LeaderboardText flex={4} align={"left"}>{props.name}</LeaderboardText>
-      <LeaderboardText flex={2} align={"right"}>{props.notesScore}</LeaderboardText>
-      <LeaderboardText flex={2} align={"right"}>{props.forumScore}</LeaderboardText>
-      <LeaderboardText flex={2} align={"right"}>{props.notesScore + props.forumScore}</LeaderboardText>
+      <LeaderboardText flex={4} align={"left"}>
+        {props.name}
+      </LeaderboardText>
+      <LeaderboardText flex={2} align={"right"}>
+        {props.notesScore}
+      </LeaderboardText>
+      <LeaderboardText flex={2} align={"right"}>
+        {props.forumScore}
+      </LeaderboardText>
+      <LeaderboardText flex={2} align={"right"}>
+        {props.notesScore + props.forumScore}
+      </LeaderboardText>
     </LeaderboardItemContainer>
-  )
-}
+  );
+};
 
 const LeaderboardList = styled.table`
   display: flex;

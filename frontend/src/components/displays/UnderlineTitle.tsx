@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 type UnderlineTitleProps = {
-  title: string,
+  title: string;
 };
 
 export const UnderlineTitle = (props: UnderlineTitleProps) => {
@@ -11,7 +11,7 @@ export const UnderlineTitle = (props: UnderlineTitleProps) => {
       <Underline />
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   display: flex;

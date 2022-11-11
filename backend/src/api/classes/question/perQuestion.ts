@@ -49,6 +49,8 @@ perQuestionRouter.post("/solve/", (req, res) => {
         JSON.stringify(classManifest),
         { encoding: "utf8" }
     )
+
+    res.sendStatus(200)
 })
 
 perQuestionRouter.patch("/", (req, res) => {
@@ -124,6 +126,8 @@ perQuestionRouter.delete("/", (req, res) => {
         JSON.stringify(manifest),
         { encoding: "utf8" }
     )
+
+    res.sendStatus(200)
 })
 
 perQuestionRouter.post("/answer/", (req, res) => {
@@ -206,6 +210,8 @@ perQuestionRouter.post("/acceptAnswer", (req, res) => {
         JSON.stringify(manifest),
         { encoding: "utf8" }
     )
+
+    res.sendStatus(200)
 })
 
 perQuestionRouter.post("/upvote", (req, res) => {
@@ -239,6 +245,8 @@ perQuestionRouter.post("/upvote", (req, res) => {
         JSON.stringify(manifest),
         { encoding: "utf8" }
     )
+
+    res.sendStatus(200)
 })
 
 perQuestionRouter.delete("/upvote", (req, res) => {
@@ -279,6 +287,8 @@ perQuestionRouter.delete("/upvote", (req, res) => {
         JSON.stringify(manifest),
         { encoding: "utf8" }
     )
+
+    res.sendStatus(200)
 })
 
 export default perQuestionRouter

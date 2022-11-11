@@ -125,8 +125,6 @@ notesRouter.delete("/:noteName", (req, res) => {
         return
     }
 
-    res.sendStatus(200)
-
     const content = fs.readFileSync(`storage/${classId}/notes/manifest.json`, {
         encoding: "utf8",
     })
@@ -139,6 +137,8 @@ notesRouter.delete("/:noteName", (req, res) => {
         JSON.stringify(manifest),
         { encoding: "utf8" }
     )
+
+    res.sendStatus(200)
 })
 
 notesRouter.post("/:noteName/upvote", (req, res) => {
@@ -162,6 +162,8 @@ notesRouter.post("/:noteName/upvote", (req, res) => {
         JSON.stringify(manifest),
         { encoding: "utf8" }
     )
+
+    res.sendStatus(200)
 })
 
 notesRouter.delete("/:noteName/upvote", (req, res) => {
@@ -188,6 +190,8 @@ notesRouter.delete("/:noteName/upvote", (req, res) => {
         JSON.stringify(manifest),
         { encoding: "utf8" }
     )
+
+    res.sendStatus(200)
 })
 
 export default notesRouter
