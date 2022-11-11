@@ -1,12 +1,10 @@
-import {Header} from "../../components/displays/Header";
-import {Container, MainContainer, LeaderboardList, LeaderboardItem, LeaderboardHeader} from "./Leaderboard.styles";
-import {MenuItem} from "@mui/material";
-import React, {useEffect} from "react";
-import {TextField} from "../../components/input/TextField";
-import {useNavigate} from "react-router-dom";
-import {useCookies} from "react-cookie";
+import { Header } from "../../components/displays/Header";
+import { Container, LeaderboardHeader, LeaderboardItem, LeaderboardList, MainContainer } from "./Leaderboard.styles";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import axios from "axios";
-import {apiEndpoint} from "../../utils/global-constants";
+import { apiEndpoint } from "../../utils/global-constants";
 
 export const Leaderboard = () => {
 
@@ -20,7 +18,7 @@ export const Leaderboard = () => {
         } else {
             axios.get(apiEndpoint + "classes").then((response) => {
                 setModules(response.data.classes);
-                updateLeaderboard();
+                updateLeaderboard().then();
             });
         }
     }, [ cookies ]);

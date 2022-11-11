@@ -11,7 +11,7 @@ import { Login } from "./routes/login/Login";
 import { Home } from "./routes/home/Home";
 import { Notes } from "./routes/notes/Notes";
 import {Leaderboard} from "./routes/leaderboard/Leaderboard";
-import { Forum } from "./routes/forum/forum"
+import { Forum } from "./routes/forum/Forum"
 
 const darkTheme = createTheme({
   palette: {

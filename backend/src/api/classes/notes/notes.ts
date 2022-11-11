@@ -151,6 +151,10 @@ notesRouter.post("/:noteName/upvote", (req, res) => {
     })
     const manifest = JSON.parse(content)
 
+    if (manifest[noteName].upVotes.includes(username)) {
+        res.sendStatus(400)
+        return
+    }
     manifest[noteName].upVotes.push(username)
 
     fs.writeFileSync(
