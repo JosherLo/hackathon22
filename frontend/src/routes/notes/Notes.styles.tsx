@@ -46,11 +46,6 @@ const CodeEditorStyled = styled(MDEditor)`
   overflow: scroll;
 `;
 
-const Tag = styled.p`
-  font-size: 12px;
-  padding: 2px 5px;
-  background-color: #5f5f5f;
-`;
 
 const TagsDiv = styled.div`
   display: flex;
@@ -70,13 +65,24 @@ const EditorDiv = styled.div`
   right: 0;
 `;
 
+const NoteItemList = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 4px;
+  //justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+  overflow-x: clip;
+`;
+
 export {
   Container,
   MainContainer,
   Panel,
   StyledSelect,
   CodeEditorStyled,
-  Tag,
   TagsDiv,
   EditorDiv,
+  NoteItemList,
 };

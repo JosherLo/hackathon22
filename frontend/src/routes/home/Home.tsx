@@ -28,7 +28,7 @@ export const Home = () => {
 
   return (
     <Container>
-      <Header name={atob(cookies.username)} logout={ () => {
+      <Header title={"Flow"} name={atob(cookies.username)} logout={ () => {
         removeCookie("username");
         removeCookie("password");
       } }/>

@@ -1,7 +1,6 @@
 export type Notes = {
   name: string,
-  tags: string,
-  markdown: string,
+  tags: string[],
 }
 
 export const apiEndpoint = "http://localhost:8001/";
