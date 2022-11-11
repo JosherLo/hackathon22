@@ -9,7 +9,7 @@
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
         "typecheck": "tsc --noemit",
         "format": "prettier --write .",
-        "precommit": "pnpm run format && pnpm run lint && pnpm run typecheck",
+        "precommit": "npm run format && npm run lint && npm run typecheck",
         "dev": "nodemon"
     },
     "keywords": [],
