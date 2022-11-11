@@ -163,7 +163,7 @@ export const Notes = () => {
 
   return (
     <Container>
-      <Header title={ "NOTES" } name={ atob(cookies.username) } logout={ () => {
+      <Header logoText={false} title={ "NOTES" } name={ atob(cookies.username) } logout={ () => {
         removeCookie("username");
         removeCookie("password");
       } }/>

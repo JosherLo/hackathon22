@@ -2,18 +2,21 @@ import styled from "@emotion/styled";
 import { ButtonProgress } from "../input/ButtonProgress";
 import React from "react";
 import LogoutIcon from '@mui/icons-material/Logout';
+import logoHexagon from '../../assets/logoHexagon.svg';
+import logo from '../../assets/logo.svg';
 
 type HeaderProps = {
+  logoText: boolean
   name: string,
   logout: Function,
-  title: string,
+  title: string
 };
 
 export const Header = (props: HeaderProps) => {
   return (
     <Container>
       <LogoDiv>
-        <Img src={"https://firebasestorage.googleapis.com/v0/b/online-games-8dbbb.appspot.com/o/photos%2Fplaceholder.jpg?alt=media"} alt={"Logo"}/>
+        <Img src={props.logoText?logo:logoHexagon} alt={"Logo"}/>
       </LogoDiv>
       <Title>{props.title}</Title>
       <Name>{props.name}</Name>

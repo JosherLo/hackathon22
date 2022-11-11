@@ -54,7 +54,7 @@ export const Leaderboard = () => {
 
     return (
         <Container>
-            <Header title={"LEADERBOARD"} name={atob(cookies.username)} logout={ () => {
+            <Header logoText title={"LEADERBOARD"} name={atob(cookies.username)} logout={ () => {
                 removeCookie("username");
                 removeCookie("password");
             } }/>
