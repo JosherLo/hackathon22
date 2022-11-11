@@ -1,5 +1,3 @@
 export function Forum(props) {
-    return (
-        <></>
-    )
+  return <></>;
 }

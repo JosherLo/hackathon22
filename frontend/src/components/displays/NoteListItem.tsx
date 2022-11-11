@@ -1,34 +1,39 @@
 import styled from "@emotion/styled";
-import { Chip } from "@mui/material";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Chip from "@mui/material/Chip";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 type NoteProps = {
-  name: string,
-  tags: string[],
-  onClick: Function,
-  delete: Function,
-  upvotes: number,
-}
+  name: string;
+  tags: string[];
+  onClick: Function;
+  delete: Function;
+  upvotes: number;
+};
 
 export const NoteListItem = (props: NoteProps) => {
-
   const chips = [];
 
   for (let tag of props.tags) {
-    chips.push(
-      <Chip label={tag} />
-    );
+    chips.push(<Chip label={tag} />);
   }
 
   return (
     <Container onClick={() => props.onClick()}>
       <Title>{props.name}</Title>
       <Description>{chips}</Description>
-      <DeleteIcon onClick={() => props.delete()} sx={{ size: "small" }}/>
-      <Upvotes>{`${props.upvotes} ❤️`}</Upvotes>
+      <DeleteIcon onClick={() => props.delete()} sx={{ size: "small" }} />
+      <Upvotes>
+        {props.upvotes}
+        <ArrowUpwardIcon
+          sx={{ marginTop: "1px" }}
+          htmlColor="#FF8b60"
+          fontSize="1em"
+        ></ArrowUpwardIcon>
+      </Upvotes>
     </Container>
   );
-}
+};
 
 const DeleteIcon = styled(DeleteForeverIcon)`
   position: absolute;
@@ -37,7 +42,7 @@ const DeleteIcon = styled(DeleteForeverIcon)`
 `;
 
 const Container = styled.div`
-  width: 260px;
+  width: 240px;
   display: flex;
   flex-direction: column;
   background-color: #5f5f5f;
@@ -62,6 +67,10 @@ const Description = styled.div`
 `;
 
 const Upvotes = styled.p`
-  font-size: 12px;
-  margin: 0 0 0 13px;
+  font-size: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

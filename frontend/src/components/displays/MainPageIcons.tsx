@@ -4,27 +4,29 @@ import { UnderlineTitle } from "./UnderlineTitle";
 import { useNavigate } from "react-router-dom";
 
 type MainPageIconsProps = {
-  icon: ReactElement,
-  title: string,
-  link?: string,
-  onClick?: Function,
-}
+  icon: ReactElement;
+  title: string;
+  link?: string;
+  onClick?: Function;
+};
 
 export const MainPageIcons = (props: MainPageIconsProps) => {
   const navigate = useNavigate();
   return (
-    <Container onClick={() => {
-      if (props.link) {
-        navigate(props.link);
-      } else {
-        props.onClick!();
-      }
-    }}>
-      <UnderlineTitle title={props.title}/>
+    <Container
+      onClick={() => {
+        if (props.link) {
+          navigate(props.link);
+        } else {
+          props.onClick!();
+        }
+      }}
+    >
+      <UnderlineTitle title={props.title} />
       {props.icon}
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   width: 200px;

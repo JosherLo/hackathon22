@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
 type ProjectTileProps = {
-  title: string,
-  description: string,
-  people: string,
-  link: string,
-}
+  title: string;
+  description: string;
+  people: string;
+  link: string;
+};
 
 export const ProjectTile = (props: ProjectTileProps) => {
   return (
@@ -18,7 +18,7 @@ export const ProjectTile = (props: ProjectTileProps) => {
       <Description>{props.description}</Description>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   width: calc(100vw - 138px);
@@ -54,7 +54,7 @@ const Title = styled(Link)`
     background-color: white;
     transform-origin: bottom right;
     transition: transform 0.25s ease-out;
-  };
+  }
   &:hover:after {
     transform: scaleX(1);
     transform-origin: bottom left;
