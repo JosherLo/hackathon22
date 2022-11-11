@@ -1,10 +1,11 @@
 import { Router } from "express"
 import fs from "fs"
 
-const notesRouter = Router()
+const notesRouter = Router({ mergeParams: true })
 
-notesRouter.get("/:classId(\\d+)", (req, res) => {
+notesRouter.get("/", (req, res) => {
     const classId = req.params.classId
+    console.log(classId)
 
     let notes = {}
 
@@ -32,7 +33,7 @@ notesRouter.get("/:classId(\\d+)", (req, res) => {
     res.json({ notes })
 })
 
-notesRouter.put("/:classId(\\d+)", async (req, res) => {
+notesRouter.put("/", async (req, res) => {
     const classId = req.params.classId
     const bodyData: any = req.body
     if (!bodyData || !bodyData.markdown || !bodyData.name) {
@@ -85,7 +86,7 @@ notesRouter.put("/:classId(\\d+)", async (req, res) => {
     res.sendStatus(200)
 })
 
-notesRouter.patch("/:classId(\\d+)", async (req, res) => {
+notesRouter.patch("/", async (req, res) => {
     const classId = req.params.classId
     const bodyData: any = req.body
     if (!bodyData || !bodyData.markdown || !bodyData.name) {
@@ -123,7 +124,7 @@ notesRouter.patch("/:classId(\\d+)", async (req, res) => {
     }
 })
 
-notesRouter.get("/:classId(\\d+)/:noteName", (req, res) => {
+notesRouter.get("/:noteName", (req, res) => {
     const classId = req.params.classId
     const noteName = req.params.noteName
 
@@ -138,7 +139,7 @@ notesRouter.get("/:classId(\\d+)/:noteName", (req, res) => {
     }
 })
 
-notesRouter.delete("/:classId(\\d+)/:noteName", (req, res) => {
+notesRouter.delete("/:noteName", (req, res) => {
     const classId = req.params.classId
     const noteName = req.params.noteName
 
