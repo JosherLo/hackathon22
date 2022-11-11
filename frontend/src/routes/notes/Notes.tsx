@@ -284,8 +284,8 @@ export const Notes = () => {
         title={"NOTES"}
         name={cookies.username ? atob(cookies.username) : ""}
         logout={() => {
-          removeCookie("username", {path: "/"});
-          removeCookie("password", {path: "/"});
+          removeCookie("username", { path: "/" });
+          removeCookie("password", { path: "/" });
           navigate("/");
         }}
       />

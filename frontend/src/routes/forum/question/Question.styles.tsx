@@ -35,7 +35,7 @@ const UpvoteContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 2px;
-`
+`;
 
 const AnswerHeader = styled.div`
   font-size: 1.5em;
@@ -46,7 +46,7 @@ const AnswerDiv = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-`
+`;
 
 const Content = styled.div`
   width: 80vw;
@@ -55,4 +55,12 @@ const Content = styled.div`
   border-radius: 5px;
 `;
 
-export { Container, MainContainer, Title, Content, AnswerHeader, AnswerDiv, UpvoteContainer };
+export {
+  Container,
+  MainContainer,
+  Title,
+  Content,
+  AnswerHeader,
+  AnswerDiv,
+  UpvoteContainer,
+};
