@@ -58,7 +58,7 @@ authRouter.put("/", async (req, res) => {
         return
     }
     logins.set(info.name, info.pass)
-    fs.writeFile(
+    await fs.writeFile(
         "users.json",
         JSON.stringify(Object.fromEntries(logins)),
         { encoding: "utf8" },

@@ -1,6 +1,6 @@
 import { Router } from "express"
 import authRouter from "./auth/auth"
-import classesRouter from "./classes/classes"
+import userRouter from "./users/users"
 
 const apiRouter = Router()
 
@@ -9,6 +9,6 @@ apiRouter.get("/", (req, res) => {
 })
 
 apiRouter.use("/auth", authRouter)
-apiRouter.use("/classes", classesRouter)
+apiRouter.use("/users/:username/", userRouter)
 
 export { apiRouter }

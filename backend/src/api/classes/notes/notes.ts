@@ -14,27 +14,14 @@ notesRouter.get("/", (req, res) => {
             encoding: "utf8",
         })
         notes = JSON.parse(data)
-    } catch {
-        try {
-            fs.mkdirSync(`storage/${classId}`)
-        } catch {}
-        try {
-            fs.mkdirSync(`storage/${classId}/notes`)
-        } catch {}
-        try {
-            fs.mkdirSync(`storage/${classId}/questions`)
-        } catch {}
-        fs.writeFileSync(
-            `storage/${classId}/notes/manifest.json`,
-            JSON.stringify(notes)
-        )
-    }
+    } catch {}
 
     res.json({ notes })
 })
 
-notesRouter.put("/", async (req, res) => {
+notesRouter.put("/", (req, res) => {
     const classId = req.params.classId
+    const username = req.params.username
     const bodyData: any = req.body
     if (!bodyData || !bodyData.markdown || !bodyData.name) {
         res.sendStatus(400)
@@ -47,14 +34,14 @@ notesRouter.put("/", async (req, res) => {
         fs.writeFileSync(
             `storage/${classId}/notes/${bodyData.name}.md`,
             bodyData.markdown,
-            { flag: "wx", encoding: "utf8" }
+            { encoding: "utf8" }
         )
     } catch (err) {
         res.sendStatus(409)
         return
     }
 
-    const noteInfo = { tags: bodyData.tags }
+    const noteInfo = { upVotes: [username], tags: bodyData.tags }
     let manifest = {}
 
     try {
@@ -63,30 +50,19 @@ notesRouter.put("/", async (req, res) => {
             { encoding: "utf8" }
         )
         manifest = JSON.parse(content)
-    } catch {
-        try {
-            fs.mkdirSync(`storage/${classId}`)
-        } catch {}
-        try {
-            fs.mkdirSync(`storage/${classId}/notes`)
-        } catch {}
-        try {
-            fs.mkdirSync(`storage/${classId}/questions`)
-        } catch {}
-    }
+    } catch {}
 
     manifest[bodyData.name] = noteInfo
 
-    await fs.writeFile(
+    fs.writeFileSync(
         `storage/${classId}/notes/manifest.json`,
-        JSON.stringify(manifest),
-        (err) => {}
+        JSON.stringify(manifest)
     )
 
     res.sendStatus(200)
 })
 
-notesRouter.patch("/", async (req, res) => {
+notesRouter.patch("/", (req, res) => {
     const classId = req.params.classId
     const bodyData: any = req.body
     if (!bodyData || !bodyData.markdown || !bodyData.name) {
@@ -109,12 +85,11 @@ notesRouter.patch("/", async (req, res) => {
         )
 
         const manifest = JSON.parse(content)
-        manifest[bodyData.name] = { tags: bodyData.tags }
+        manifest[bodyData.name].tags = bodyData.tags
 
-        await fs.writeFile(
+        fs.writeFileSync(
             `storage/${classId}/notes/manifest.json`,
-            JSON.stringify(manifest),
-            (err) => {}
+            JSON.stringify(manifest)
         )
 
         res.sendStatus(200)
@@ -158,6 +133,51 @@ notesRouter.delete("/:noteName", (req, res) => {
     const manifest = JSON.parse(content)
 
     delete manifest[noteName]
+
+    fs.writeFileSync(
+        `storage/${classId}/notes/manifest.json`,
+        JSON.stringify(manifest),
+        { encoding: "utf8" }
+    )
+})
+
+notesRouter.post("/:noteName/upvote", (req, res) => {
+    const classId = req.params.classId
+    const username = req.params.username
+    const noteName = req.params.noteName
+
+    const content = fs.readFileSync(`storage/${classId}/notes/manifest.json`, {
+        encoding: "utf8",
+    })
+    const manifest = JSON.parse(content)
+
+    manifest[noteName].upVotes.push(username)
+
+    fs.writeFileSync(
+        `storage/${classId}/notes/manifest.json`,
+        JSON.stringify(manifest),
+        { encoding: "utf8" }
+    )
+})
+
+notesRouter.delete("/:noteName/upvote", (req, res) => {
+    const classId = req.params.classId
+    const username = req.params.username
+    const noteName = req.params.noteName
+
+    const content = fs.readFileSync(`storage/${classId}/notes/manifest.json`, {
+        encoding: "utf8",
+    })
+    const manifest = JSON.parse(content)
+
+    const index = manifest[noteName].upVotes.indexOf(username)
+
+    if (index === -1) {
+        res.sendStatus(404)
+        return
+    }
+
+    manifest[noteName].upVotes.splice(index, 1)
 
     fs.writeFileSync(
         `storage/${classId}/notes/manifest.json`,
