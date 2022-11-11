@@ -39,14 +39,24 @@ export const Forum = () => {
     }
   }, [cookies]);
 
-  const [modules, setModules] = React.useState<string[]>([
-    "CM4131",
-    "BL4131",
-    "MA4132",
-    "PC4132",
-  ]);
+  const [modules, setModules] = React.useState<string[]>([]);
   const [selectedModule, setSelectedModule] = React.useState<string>("");
   const [search, setSearch] = React.useState<string>("");
+  const [questions, setQuestions] = React.useState<any[]>([]);
+
+  const [username, password] = [atob(cookies.username), atob(cookies.password)]
+
+  useEffect(() => {
+    axios.get(`${apiEndpoint}users/${username}/classes/`).then((resp) => {
+      setModules(resp.data.classes)
+    })
+  }, [])
+
+  useEffect(() => {
+    axios.get(`${apiEndpoint}users/${username}/classes/${selectedModule}/questions`).then((resp) => {
+      setQuestions(resp.data.questions)
+    })
+  }, [selectedModule])
 
   const updateForum = async () => {
     if (selectedModule != "") {
@@ -102,11 +112,11 @@ export const Forum = () => {
           </SearchPanel>
         </SelectionPanel>
         <ForumContainer>
-          <Tile title={"A"} description={"desc"} people={"person"} link={""} />
-          <Tile title={"B"} description={"desc"} people={"person"} link={""} />
-          <Tile title={"B"} description={"desc"} people={"person"} link={""} />
-          <Tile title={"B"} description={"desc"} people={"person"} link={""} />
-          <Tile title={"B"} description={"desc"} people={"person"} link={""} />
+          {
+            questions.map((question, index) => {
+              return <Tile title={question.title} people={question.asker} link={`/forum/${selectedModule}/${index}`} />
+                })
+          }
         </ForumContainer>
       </MainContainer>
     </Container>
