@@ -27,17 +27,6 @@ export const Leaderboard = () => {
 
     const [ modules, setModules ] = React.useState<string[]>(["CM4131", "BL4131", "MA4132", "PC4132"]);
     const [ selectedModule, setSelectedModule ] = React.useState<string>("");
-    const [ lastSelectedTag, setLastSelectedTag ] = React.useState<string>("");
-    const [ allTags, setAllTags ] = React.useState<string[]>(["Chapter 1", "Chapter 2", "Chapter 3"]);
-    const [ selectedTags, setSelectedTags ] = React.useState<string[]>([]);
-    const [ search, setSearch ] = React.useState<string>("");
-    const [ notes, setNotes ] = React.useState<string[]>([]);
-    const [ selectedNote, setSelectedNote ] = React.useState<string>("");
-    const [ code, setCode ] = React.useState("");
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(event.target.value);
-    };
 
     const updateLeaderboard = async () => {
         if (selectedModule != "") {
@@ -54,7 +43,7 @@ export const Leaderboard = () => {
 
     return (
         <Container>
-            <Header logoText title={"LEADERBOARD"} name={ cookies.username ? atob(cookies.username) : ""} logout={ () => {
+            <Header title={"LEADERBOARD"} name={ cookies.username ? atob(cookies.username) : ""} logout={ () => {
                 removeCookie("username");
                 removeCookie("password");
             } }/>

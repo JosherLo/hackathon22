@@ -6,7 +6,7 @@ import logoHexagon from '../../assets/logoHexagon.svg';
 import logo from '../../assets/logo.svg';
 
 type HeaderProps = {
-  logoText: boolean
+  logoText?: boolean
   name: string,
   logout: Function,
   title: string
@@ -16,7 +16,7 @@ export const Header = (props: HeaderProps) => {
   return (
     <Container>
       <LogoDiv>
-        <Img src={props.logoText?logo:logoHexagon} alt={"Logo"}/>
+        <LogoImg src={props.logoText?logo:logoHexagon} alt={"Logo"}/>
       </LogoDiv>
       <Title>{props.title}</Title>
       <Name>{props.name}</Name>
@@ -59,6 +59,13 @@ const Img = styled.img`
 `;
 
 const LogoDiv = styled.div`
+  height: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+`;
+
+const LogoImg = styled.img`
+  height: 100%;
 `;
 
 const Spacer = styled.div`
