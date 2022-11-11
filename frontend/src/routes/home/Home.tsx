@@ -61,7 +61,7 @@ export const Home = () => {
         <Divider/>
         <IconsContainer>
           <MainPageIcons icon={<ImportContactsIcon sx={{ width: 100, height: 100}}/>} title={"Notes"} link={"/notes"}/>
-          <MainPageIcons icon={<PeopleIcon sx={{ width: 100, height: 100}}/>} title={"Collaboration"} link={"/collab"}/>
+          <MainPageIcons icon={<PeopleIcon sx={{ width: 100, height: 100}}/>} title={"Forum"} link={"/forum"}/>
           <MainPageIcons icon={<AssignmentIcon sx={{ width: 100, height: 100}}/>} title={"Leaderboard"} link={"/leaderboard"}/>
         </IconsContainer>
       </MainContainer>
