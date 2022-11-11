@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Header } from "../../components/displays/Header";
-import { ProjectTile } from "../../components/displays/ProjectTile";
+import { Tile } from "../../components/displays/Tile";
 import { UnderlineTitle } from "../../components/displays/UnderlineTitle";
 import { MainPageIcons } from "../../components/displays/MainPageIcons";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
@@ -97,25 +97,25 @@ export const Home = () => {
       <MainContainer>
         <UnderlineTitle title={"Projects"} />
         <ProjectContainer>
-          <ProjectTile
+          <Tile
             title={"Title"}
             description={"Desc"}
             people={"(Ppl)"}
             link={"/"}
           />
-          <ProjectTile
+          <Tile
             title={"Title"}
             description={"Desc"}
             people={"(Ppl)"}
             link={""}
           />
-          <ProjectTile
+          <Tile
             title={"Title"}
             description={"Desc"}
             people={"(Ppl)"}
             link={""}
           />
-          <ProjectTile
+          <Tile
             title={"Title"}
             description={"Desc"}
             people={"(Ppl)"}
@@ -131,8 +131,8 @@ export const Home = () => {
           />
           <MainPageIcons
             icon={<PeopleIcon sx={{ width: 100, height: 100 }} />}
-            title={"Collaboration"}
-            link={"/collab"}
+            title={"Forum"}
+            link={"/forum"}
           />
           <MainPageIcons
             icon={<AssignmentIcon sx={{ width: 100, height: 100 }} />}

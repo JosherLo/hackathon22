@@ -1,13 +1,21 @@
-import {Container, DropdownPanel, MainContainer, SearchPanel, SelectionPanel} from "./Forum.styles";
+import {
+    Container,
+    DropdownPanel,
+    ForumContainer,
+    MainContainer,
+    SearchPanel,
+    SelectionPanel,
+    StyledSelect
+} from "./Forum.styles";
 import {Header} from "../../components/displays/Header";
 import React, {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import axios from "axios";
 import {apiEndpoint} from "../../utils/global-constants";
-import {StyledSelect} from "../notes/Notes.styles";
 import {MenuItem} from "@mui/material";
 import {TextField} from "../../components/input/TextField";
+import {Tile} from "../../components/displays/Tile";
 
 export const Forum = () => {
 
@@ -59,6 +67,14 @@ export const Forum = () => {
                                  variant={ "filled" }/>
                   </SearchPanel>
               </SelectionPanel>
+              <ForumContainer>
+                  <Tile title={"A"} description={"desc"} people={"person"} link={""}/>
+                  <Tile title={"B"} description={"desc"} people={"person"} link={""}/>
+                  <Tile title={"B"} description={"desc"} people={"person"} link={""}/>
+                  <Tile title={"B"} description={"desc"} people={"person"} link={""}/>
+                  <Tile title={"B"} description={"desc"} people={"person"} link={""}/>
+
+              </ForumContainer>
           </MainContainer>
       </Container>
     )

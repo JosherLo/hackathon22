@@ -8,7 +8,7 @@ type ProjectTileProps = {
   link: string;
 };
 
-export const ProjectTile = (props: ProjectTileProps) => {
+export const Tile = (props: ProjectTileProps) => {
   return (
     <Container>
       <TitleDiv>
@@ -39,10 +39,12 @@ const TitleDiv = styled.div`
 
 const Title = styled(Link)`
   font-size: 24px;
+  display: flex;
   position: relative;
   cursor: pointer;
   color: white;
   text-decoration: none;
+  white-space: nowrap;
   &:after {
     content: "";
     position: absolute;
@@ -59,6 +61,9 @@ const Title = styled(Link)`
     transform: scaleX(1);
     transform-origin: bottom left;
   }
+  text {
+    max-width: 100%;
+  }
 `;
 
 const Description = styled.p`
@@ -67,4 +72,9 @@ const Description = styled.p`
 
 const People = styled.p`
   font-size: 16px;
+  white-space: nowrap;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
