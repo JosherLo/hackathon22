@@ -19,35 +19,32 @@ export const Leaderboard = () => {
     // checks if username and password exist and match if not redirect back to home
     if (!cookies.username || !cookies.password) {
       navigate("/");
-    } else {
-      axios.get(apiEndpoint + "classes").then((response) => {
-        setModules(response.data.classes);
-        updateLeaderboard().then();
-      });
     }
   }, [cookies]);
 
-  const [modules, setModules] = React.useState<string[]>([
-    "CM4131",
-    "BL4131",
-    "MA4132",
-    "PC4132",
-  ]);
-  const [selectedModule, setSelectedModule] = React.useState<string>("");
+  const [modules, setModules] = React.useState<string[]>([]);
+  const [selectedModule, setSelectedModule] = React.useState<string | undefined>(undefined);
+  const [data, setData] = React.useState<{name: string, notesScore: number, forumScore: number}[]>([]);
 
-  const updateLeaderboard = async () => {
-    if (selectedModule != "") {
-      const res = await axios.get(
-        apiEndpoint + "classes/" + selectedModule + "/leaderboard"
-      );
-    }
-  };
+  useEffect(() => {
+    axios.get(`${apiEndpoint}users/${atob(cookies.username)}/classes`).then((resp) => {
+      setModules(resp.data.classes)
+    })
+  }, [])
 
-  const data = [
-    { name: "Anom", notesScore: 100, forumScore: 100 },
-    { name: "Anom", notesScore: 200, forumScore: 100 },
-    { name: "Anom", notesScore: 300, forumScore: 100 },
-  ];
+  useEffect(() => {
+    axios.get(`${apiEndpoint}users/${atob(cookies.username)}/classes/${selectedModule}/scores`).then((resp) => {
+      const tempData = []
+      for (const [k, v] of Object.entries(resp.data.data)) {
+        tempData.push({
+          name: k,
+          notesScore: 100,
+          forumScore: (v as {forumScore: number}).forumScore
+        })
+      }
+      setData(tempData)
+    })
+  }, [selectedModule])
 
   return (
     <Container>
@@ -71,7 +68,7 @@ export const Leaderboard = () => {
             <MenuItem value={a}>{a}</MenuItem>
           ))}
         </StyledSelect>
-        <LeaderboardList>
+        {selectedModule && <LeaderboardList>
           <LeaderboardHeader />
           {data.map((item) => {
             return (
@@ -82,7 +79,7 @@ export const Leaderboard = () => {
               />
             );
           })}
-        </LeaderboardList>
+        </LeaderboardList>}
       </MainContainer>
     </Container>
   );
