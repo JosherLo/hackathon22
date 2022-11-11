@@ -1,24 +1,26 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import CheckIcon from "@mui/icons-material/Check"
+import CheckIcon from "@mui/icons-material/Check";
 
 type ProjectTileProps = {
-    title: string;
-    description: string;
-    people: string;
-    link: string;
+  title: string;
+  description: string;
+  people: string;
+  link: string;
 };
 
 export const Tile = (props: ProjectTileProps) => {
-    return (
-        <Container>
-            <TitleDiv>
-                <Title>{props.title}</Title>
-                <People><CheckIcon /></People>
-            </TitleDiv>
-            <Description>{props.description}</Description>
-        </Container>
-    );
+  return (
+    <Container>
+      <TitleDiv>
+        <Title>{props.title}</Title>
+        <People>
+          <CheckIcon />
+        </People>
+      </TitleDiv>
+      <Description>{props.description}</Description>
+    </Container>
+  );
 };
 
 const Container = styled.div`

@@ -14,7 +14,13 @@ import {
   TagsDiv,
   Title,
 } from "./Notes.styles";
-import { Chip, IconButton, InputAdornment, MenuItem, TextFieldProps, } from "@mui/material";
+import {
+  Chip,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  TextFieldProps,
+} from "@mui/material";
 import { TextField } from "../../components/input/TextField";
 import axios from "axios";
 import { apiEndpoint } from "../../utils/global-constants";
@@ -183,14 +189,16 @@ export const Notes = () => {
 
   useEffect(() => {
     const tempTagsDialog = selectedTagsDialog.map((tag) => {
-      return <Chip
-        label={tag}
-        onClick={() => {
-          setSelectedTagsDialog(
-            selectedTagsDialog.filter((value) => value !== tag)
-          );
-        }}
-      />;
+      return (
+        <Chip
+          label={tag}
+          onClick={() => {
+            setSelectedTagsDialog(
+              selectedTagsDialog.filter((value) => value !== tag)
+            );
+          }}
+        />
+      );
     });
 
     setTagsDialog(tempTagsDialog);

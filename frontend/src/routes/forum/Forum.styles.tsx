@@ -25,7 +25,7 @@ const MainContainer = styled.div`
 const TopPanel = styled.div`
   width: 100%;
   padding: 30px;
-  display: flex
+  display: flex;
 `;
 
 const AddContainer = styled.div`
@@ -55,7 +55,6 @@ const StyledSelect = styled(Select)`
   width: 260px;
 `;
 
-
 const SearchPanel = styled.div`
   flex: 1;
   display: flex;
@@ -80,5 +79,5 @@ export {
   DropdownPanel,
   StyledSelect,
   SearchPanel,
-  ForumContainer
+  ForumContainer,
 };

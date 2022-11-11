@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 
 const Container = styled.div`
   width: 100vw;
@@ -23,23 +23,17 @@ const MainContainer = styled.div`
 
 const Title = styled.div`
   font-size: 2em;
-`
+`;
 
 const AnswerHeader = styled.div`
   font-size: 1.5em;
-`
+`;
 
 const Content = styled.div`
   width: 80vw;
   padding: 20px;
   border: 3px solid #6d8b9b;
   border-radius: 5px;
-`
+`;
 
-export {
-    Container,
-    MainContainer,
-    Title,
-    Content,
-    AnswerHeader
-}
+export { Container, MainContainer, Title, Content, AnswerHeader };

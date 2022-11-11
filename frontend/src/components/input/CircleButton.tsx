@@ -1,6 +1,6 @@
-import {ReactElement} from "react";
-import {useNavigate} from "react-router-dom";
-import {UnderlineTitle} from "../displays/UnderlineTitle";
+import { ReactElement } from "react";
+import { useNavigate } from "react-router-dom";
+import { UnderlineTitle } from "../displays/UnderlineTitle";
 import styled from "@emotion/styled";
 
 type CircleButtonProps = {

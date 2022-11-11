@@ -1,5 +1,11 @@
 import { Header } from "../../components/displays/Header";
-import { Container, LeaderboardHeader, LeaderboardItem, LeaderboardList, MainContainer, } from "./Leaderboard.styles";
+import {
+  Container,
+  LeaderboardHeader,
+  LeaderboardItem,
+  LeaderboardList,
+  MainContainer,
+} from "./Leaderboard.styles";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -23,28 +29,40 @@ export const Leaderboard = () => {
   }, [cookies]);
 
   const [modules, setModules] = React.useState<string[]>([]);
-  const [selectedModule, setSelectedModule] = React.useState<string | undefined>(undefined);
-  const [data, setData] = React.useState<{name: string, notesScore: number, forumScore: number}[]>([]);
+  const [selectedModule, setSelectedModule] = React.useState<
+    string | undefined
+  >(undefined);
+  const [data, setData] = React.useState<
+    { name: string; notesScore: number; forumScore: number }[]
+  >([]);
 
   useEffect(() => {
-    axios.get(`${apiEndpoint}users/${atob(cookies.username)}/classes`).then((resp) => {
-      setModules(resp.data.classes)
-    })
-  }, [])
+    axios
+      .get(`${apiEndpoint}users/${atob(cookies.username)}/classes`)
+      .then((resp) => {
+        setModules(resp.data.classes);
+      });
+  }, []);
 
   useEffect(() => {
-    axios.get(`${apiEndpoint}users/${atob(cookies.username)}/classes/${selectedModule}/scores`).then((resp) => {
-      const tempData = []
-      for (const [k, v] of Object.entries(resp.data.data)) {
-        tempData.push({
-          name: k,
-          notesScore: 100,
-          forumScore: (v as {forumScore: number}).forumScore
-        })
-      }
-      setData(tempData)
-    })
-  }, [selectedModule])
+    axios
+      .get(
+        `${apiEndpoint}users/${atob(
+          cookies.username
+        )}/classes/${selectedModule}/scores`
+      )
+      .then((resp) => {
+        const tempData = [];
+        for (const [k, v] of Object.entries(resp.data.data)) {
+          tempData.push({
+            name: k,
+            notesScore: 100,
+            forumScore: (v as { forumScore: number }).forumScore,
+          });
+        }
+        setData(tempData);
+      });
+  }, [selectedModule]);
 
   return (
     <Container>
@@ -68,18 +86,20 @@ export const Leaderboard = () => {
             <MenuItem value={a}>{a}</MenuItem>
           ))}
         </StyledSelect>
-        {selectedModule && <LeaderboardList>
-          <LeaderboardHeader />
-          {data.map((item) => {
-            return (
-              <LeaderboardItem
-                name={item.name}
-                notesScore={item.notesScore}
-                forumScore={item.forumScore}
-              />
-            );
-          })}
-        </LeaderboardList>}
+        {selectedModule && (
+          <LeaderboardList>
+            <LeaderboardHeader />
+            {data.map((item) => {
+              return (
+                <LeaderboardItem
+                  name={item.name}
+                  notesScore={item.notesScore}
+                  forumScore={item.forumScore}
+                />
+              );
+            })}
+          </LeaderboardList>
+        )}
       </MainContainer>
     </Container>
   );

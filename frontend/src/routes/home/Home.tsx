@@ -1,4 +1,10 @@
-import {Container, IconsContainer, MainContainer, ProjectContainer, TitleContainer,} from "./Home.styles";
+import {
+  Container,
+  IconsContainer,
+  MainContainer,
+  ProjectContainer,
+  TitleContainer,
+} from "./Home.styles";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";

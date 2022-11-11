@@ -47,4 +47,10 @@ const IconsContainer = styled.div`
   gap: 80px;
 `;
 
-export { Container, MainContainer, ProjectContainer, IconsContainer, TitleContainer };
+export {
+  Container,
+  MainContainer,
+  ProjectContainer,
+  IconsContainer,
+  TitleContainer,
+};
