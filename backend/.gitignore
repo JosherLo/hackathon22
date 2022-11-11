@@ -66,5 +66,3 @@ node_modules/
 
 build/
 dist/
-users.json
-storage/
