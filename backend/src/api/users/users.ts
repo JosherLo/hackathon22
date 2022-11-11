@@ -42,7 +42,6 @@ userRouter.post("/joinClass", (req, res) => {
 
     classManifest[username] = {
         forumScore: 0,
-        notesScore: 0,
     }
 
     if (username in userClasses) {
