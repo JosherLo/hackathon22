@@ -244,7 +244,7 @@ export const Notes = () => {
                   const temp = { ...n };
                   temp[selectedNote].upVotes = temp[selectedNote].upVotes.filter((v: string) => v !== atob(cookies.username));
                   return temp;
-                })
+                });
               }
             } }/>
             <SaveIcon onClick={() => {
