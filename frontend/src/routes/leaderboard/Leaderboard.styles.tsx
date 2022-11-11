@@ -5,20 +5,19 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  justify-content: center;
   align-items: center;
   gap: 20px;
 `;
 
 const MainContainer = styled.div`
-  width: 80vw;
+  width: 100vw;
   margin: 60px 0 0 0;
   display: flex;
   flex-direction: column;
-  justify-content: left;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   gap: 20px;
-  position: fixed;
 `;
 
 const LeaderboardHeaderContainer = styled.div`

@@ -6,7 +6,7 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  justify-content: center;
   align-items: center;
   gap: 20px;
 `;
@@ -19,6 +19,7 @@ const MainContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  position: fixed;
 `;
 
 const SelectionPanel = styled.div`

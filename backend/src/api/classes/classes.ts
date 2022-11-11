@@ -36,4 +36,14 @@ classesRouter.get("/", (req, res) => {
     return res.json({ classes: studentManifest[username] })
 })
 
+classesRouter.get("/:classId/scores/", (req, res) => {
+    const classId = req.params.classId
+
+    const classManifest = JSON.parse(
+        fs.readFileSync(`storage/${classId}/students.json`, { encoding: "utf8" })
+    )
+
+    return res.json({data: classManifest})
+})
+
 export default classesRouter
