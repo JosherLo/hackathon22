@@ -11,12 +11,12 @@ const Container = styled.div`
 `;
 
 const MainContainer = styled.div`
-  width: 100vw;
+  width: 80vw;
   margin: 60px 0 0 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: flex-start;
   gap: 20px;
   position: fixed;
 `;
@@ -77,8 +77,9 @@ const LeaderboardItem = (props: ItemProps) => {
 const LeaderboardList = styled.table`
   display: flex;
   flex-direction: column;
-  padding: 10px 40px;
-  width: 80%;
+  margin-top: 10px;
+  padding: 20px 40px;
+  width: 100%;
   border: 3px solid #646464;
   border-radius: 20px;
   justify-content: center;

@@ -78,7 +78,7 @@ export const Home = () => {
 
   return (
     <Container>
-      <Header title={"Flow"} name={ cookies.username ? atob(cookies.username) : "" } logout={ () => {
+      <Header logoText title={""} name={ cookies.username ? atob(cookies.username) : "" } logout={ () => {
         removeCookie("username");
         removeCookie("password");
       } }/>
@@ -92,10 +92,10 @@ export const Home = () => {
         </ProjectContainer>
         <Divider/>
         <IconsContainer>
-          <MainPageIcons icon={<ImportContactsIcon sx={{ width: 100, height: 100}}/>} title={"Notes"} link={"/notes"} onClick={null}/>
-          <MainPageIcons icon={<PeopleIcon sx={{ width: 100, height: 100}}/>} title={"Collaboration"} link={"/collab"} onClick={null}/>
-          <MainPageIcons icon={<AssignmentIcon sx={{ width: 100, height: 100}}/>} title={"Leaderboard"} link={"/leaderboard"} onClick={null}/>
-          <MainPageIcons icon={<SchoolIcon sx={{ width: 100, height: 100}}/>} title={"Join class"} link={null} onClick={() => {
+          <MainPageIcons icon={<ImportContactsIcon sx={{ width: 100, height: 100}}/>} title={"Notes"} link={"/notes"}/>
+          <MainPageIcons icon={<PeopleIcon sx={{ width: 100, height: 100}}/>} title={"Collaboration"} link={"/collab"}/>
+          <MainPageIcons icon={<AssignmentIcon sx={{ width: 100, height: 100}}/>} title={"Leaderboard"} link={"/leaderboard"}/>
+          <MainPageIcons icon={<SchoolIcon sx={{ width: 100, height: 100}}/>} title={"Join class"} onClick={() => {
             handleOpen();
           }}/>
         </IconsContainer>

@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { apiEndpoint } from "../../utils/global-constants";
+import {Dropdown} from "../../components/input/Dropdown";
+import {MenuItem} from "@mui/material";
+import {StyledSelect} from "../notes/Notes.styles";
 
 export const Leaderboard = () => {
 
@@ -46,6 +49,10 @@ export const Leaderboard = () => {
                 removeCookie("password");
             } }/>
             <MainContainer>
+                <StyledSelect SelectDisplayProps={ { style: { paddingTop: 8, paddingBottom: 8 } } } value={ selectedModule }
+                              onChange={ e => {
+                                  setSelectedModule(e.target.value as string);
+                              } }>{ modules.map(a => <MenuItem value={ a }>{ a }</MenuItem>) }</StyledSelect>
                 <LeaderboardList>
                     <LeaderboardHeader/>
                     {
