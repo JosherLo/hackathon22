@@ -1,8 +1,15 @@
-import { Container } from "./Home.styles";
+import { Container, IconsContainer, MainContainer, ProjectContainer } from "./Home.styles";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { ButtonProgress } from "../../components/input/ButtonProgress";
+import { Header } from "../../components/displays/Header";
+import { ProjectTile } from "../../components/displays/ProjectTile";
+import { UnderlineTitle } from "../../components/displays/UnderlineTitle";
+import { MainPageIcons } from "../../components/displays/MainPageIcons";
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import { Divider } from "@mui/material";
+import PeopleIcon from '@mui/icons-material/People';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 export const Home = () => {
 
@@ -18,16 +25,28 @@ export const Home = () => {
     }
   }, [ cookies ]);
 
+
   return (
     <Container>
-      <p>wow this works</p>
-      <ButtonProgress onClick={ async () => {
+      <Header name={atob(cookies.username)} logout={ () => {
         removeCookie("username");
         removeCookie("password");
-      } } handleErr={ async ( err: any ) => {
-        console.error("ERROR CREATING ACCOUNT");
-        console.log(err);
-      } } text="SIGN OUT" variant={ "contained" } sx={ { width: 360 } }/>
+      } }/>
+      <MainContainer>
+        <UnderlineTitle title={ "Projects" }/>
+        <ProjectContainer>
+          <ProjectTile title={"Title"} description={"Desc"} people={"(Ppl)"} link={"/"}/>
+          <ProjectTile title={"Title"} description={"Desc"} people={"(Ppl)"} link={""}/>
+          <ProjectTile title={"Title"} description={"Desc"} people={"(Ppl)"} link={""}/>
+          <ProjectTile title={"Title"} description={"Desc"} people={"(Ppl)"} link={""}/>
+        </ProjectContainer>
+        <Divider/>
+        <IconsContainer>
+          <MainPageIcons icon={<ImportContactsIcon sx={{ width: 100, height: 100}}/>} title={"Notes"} link={"/notes"}/>
+          <MainPageIcons icon={<PeopleIcon sx={{ width: 100, height: 100}}/>} title={"Collaboration"} link={"/collab"}/>
+          <MainPageIcons icon={<AssignmentIcon sx={{ width: 100, height: 100}}/>} title={"Leaderboard"} link={"/leaderboard"}/>
+        </IconsContainer>
+      </MainContainer>
     </Container>
   );
 }

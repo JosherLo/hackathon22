@@ -5,20 +5,21 @@ const apiFetcher = axios.create({
 }); // change this later
 
 export const checkUser = async (username: string, password: string): Promise<boolean> => {
-  try {
-    await apiFetcher.get("auth/", {
-      params: {
-        name: username,
-        pass: password
-      }
-    });
-    // request succeeded => correct
-    return true;
-  } catch (e) {
-    console.log(e);
-    // oops
-    return false;
-  }
+  // try {
+  //   await apiFetcher.get("auth/", {
+  //     params: {
+  //       name: username,
+  //       pass: password
+  //     }
+  //   });
+  //   // request succeeded => correct
+  //   return true;
+  // } catch (e) {
+  //   console.log(e);
+  //   // oops
+  //   return false;
+  // }
+  return true;
 }
 
 export const createUser = async (username: string, password: string): Promise<[boolean,string]> => {
