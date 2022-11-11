@@ -35,7 +35,7 @@ userRouter.post("/joinClass", (req, res) => {
         })
     )
 
-    if (userClasses[username].includes(classId)) {
+    if (userClasses[username] && userClasses[username].includes(classId)) {
         res.sendStatus(200)
         return
     }
