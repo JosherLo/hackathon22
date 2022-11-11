@@ -10,6 +10,4 @@ const LoginContainer = styled.div`
   gap: 20px;
 `;
 
-export {
-  LoginContainer
-};
+export { LoginContainer };

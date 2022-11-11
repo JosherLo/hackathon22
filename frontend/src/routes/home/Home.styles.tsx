@@ -20,6 +20,13 @@ const MainContainer = styled.div`
   gap: 20px;
 `;
 
+const TitleContainer = styled.div`
+  width: 90%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
 const ProjectContainer = styled.div`
   width: calc(100vw - 80px);
   height: 200px;
@@ -31,6 +38,8 @@ const ProjectContainer = styled.div`
 `;
 
 const IconsContainer = styled.div`
+  border-top: 3px solid #6d8b9b;
+  padding-top: 50px;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -43,4 +52,5 @@ export {
   MainContainer,
   ProjectContainer,
   IconsContainer,
+  TitleContainer,
 };

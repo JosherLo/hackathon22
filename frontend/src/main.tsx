@@ -1,48 +1,50 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CookiesProvider } from "react-cookie";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login } from "./routes/login/Login";
 import { Home } from "./routes/home/Home";
 import { Notes } from "./routes/notes/Notes";
-import {Leaderboard} from "./routes/leaderboard/Leaderboard";
-import { Forum } from "./routes/forum/Forum"
+import { Leaderboard } from "./routes/leaderboard/Leaderboard";
+import { Forum } from "./routes/forum/Forum";
+import Question from "./routes/forum/question/Question";
 
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
   },
 });
 
 const router = createBrowserRouter([
   {
     path: "home",
-    element: <Home />
+    element: <Home />,
   },
   {
     path: "notes",
-    element: <Notes />
+    element: <Notes />,
   },
   {
     path: "leaderboard",
-    element: <Leaderboard/>
+    element: <Leaderboard />,
   },
   {
     path: "forum",
-    element: <Forum />
+    element: <Forum />,
+  },
+  {
+    path: "forum/post/:className/:id",
+    element: <Question />,
   },
   {
     path: "*", // catches all paths that are not matched yet
-    element: <Login />
+    element: <Login />,
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <CookiesProvider>
       <ThemeProvider theme={darkTheme}>
@@ -50,4 +52,4 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       </ThemeProvider>
     </CookiesProvider>
   </React.StrictMode>
-)
+);

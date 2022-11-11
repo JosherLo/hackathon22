@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Select } from "@mui/material";
+import Select from "@mui/material/Select";
 import MDEditor from "@uiw/react-md-editor";
 
 const Container = styled.div`
@@ -24,7 +24,7 @@ const MainContainer = styled.div`
 `;
 
 const Panel = styled.div`
-  width: 280px;
+  width: 260px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -34,6 +34,7 @@ const Panel = styled.div`
   border: 1px solid black;
   height: calc(100vh - 60px);
   align-items: center;
+  padding: 10px;
 `;
 
 const StyledSelect = styled(Select)`
@@ -47,7 +48,6 @@ const CodeEditorStyled = styled(MDEditor)`
   height: calc(100vh - 60px);
   overflow: scroll;
 `;
-
 
 const TagsDiv = styled.div`
   display: flex;
@@ -76,7 +76,8 @@ const NoteItemList = styled.div`
   align-items: center;
   overflow-y: scroll;
   overflow-x: clip;
-  width: 280px;
+  width: 260px;
+  padding: 10px;
 `;
 
 const InfoRow = styled.div`

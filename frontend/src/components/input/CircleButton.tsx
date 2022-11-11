@@ -1,16 +1,15 @@
-import { ReactComponentElement, ReactElement } from "react";
-import styled from "@emotion/styled";
-import { UnderlineTitle } from "./UnderlineTitle";
+import { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
+import { UnderlineTitle } from "../displays/UnderlineTitle";
+import styled from "@emotion/styled";
 
-type MainPageIconsProps = {
+type CircleButtonProps = {
   icon: ReactElement;
-  title: string;
   link?: string;
   onClick?: Function;
 };
 
-export const MainPageIcons = (props: MainPageIconsProps) => {
+export const CircleButton = (props: CircleButtonProps) => {
   const navigate = useNavigate();
   return (
     <Container
@@ -22,22 +21,21 @@ export const MainPageIcons = (props: MainPageIconsProps) => {
         }
       }}
     >
-      <UnderlineTitle title={props.title} />
       {props.icon}
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: 200px;
+  width: 25px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 5px;
   border: 2px white solid;
-  border-radius: 20px;
+  border-radius: 50%;
   cursor: pointer;
 
   &:hover {
