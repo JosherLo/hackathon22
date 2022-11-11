@@ -22,6 +22,18 @@ const MainContainer = styled.div`
   position: fixed;
 `;
 
+const TopPanel = styled.div`
+  width: 100%;
+  padding: 30px;
+  display: flex
+`;
+
+const AddContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const SelectionPanel = styled.div`
   width: 80%;
   padding: 10px;
@@ -63,6 +75,7 @@ const ForumContainer = styled.div`
 export {
   Container,
   MainContainer,
+  AddContainer,
   SelectionPanel,
   DropdownPanel,
   StyledSelect,

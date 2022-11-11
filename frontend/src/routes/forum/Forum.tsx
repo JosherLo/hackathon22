@@ -1,4 +1,5 @@
 import {
+    AddContainer,
     Container,
     DropdownPanel,
     ForumContainer,
@@ -16,6 +17,8 @@ import {apiEndpoint} from "../../utils/global-constants";
 import {MenuItem} from "@mui/material";
 import {TextField} from "../../components/input/TextField";
 import {Tile} from "../../components/displays/Tile";
+import AddIcon from '@mui/icons-material/Add';
+import {CircleButton} from "../../components/input/CircleButton";
 
 export const Forum = () => {
 
@@ -62,6 +65,9 @@ export const Forum = () => {
                                         setSelectedModule(e.target.value as string);
                                     } }>{ modules.map(a => <MenuItem value={ a }>{ a }</MenuItem>) }</StyledSelect>
                   </DropdownPanel>
+                  <AddContainer>
+                      <CircleButton icon={<AddIcon sx={{ width: 25, height: 25 }} />}/>
+                  </AddContainer>
                   <SearchPanel>
                       <TextField sx={ { width: 260 } } size={ "small" } onChange={ handleChange } label={ "Search" }
                                  variant={ "filled" }/>
