@@ -6,6 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 type HeaderProps = {
   name: string,
   logout: Function,
+  title: string,
 };
 
 export const Header = (props: HeaderProps) => {
@@ -14,6 +15,7 @@ export const Header = (props: HeaderProps) => {
       <LogoDiv>
         <Img src={"https://firebasestorage.googleapis.com/v0/b/online-games-8dbbb.appspot.com/o/photos%2Fplaceholder.jpg?alt=media"} alt={"Logo"}/>
       </LogoDiv>
+      <Title>{props.title}</Title>
       <Name>{props.name}</Name>
       <Img src={"https://firebasestorage.googleapis.com/v0/b/online-games-8dbbb.appspot.com/o/photos%2Fplaceholder.jpg?alt=media"} alt={"Pfp"}/>
       <LogoutIconStyled onClick={ async () => {
@@ -40,6 +42,12 @@ const Container = styled.div`
 const Name = styled.p`
 `;
 
+const Title = styled.p`
+  flex: 1;
+  text-align: left;
+  font-size: 20px;
+`;
+
 const Img = styled.img`
   width: 40px;
   height: 40px;
@@ -48,7 +56,6 @@ const Img = styled.img`
 `;
 
 const LogoDiv = styled.div`
-  flex: 1;
 `;
 
 const Spacer = styled.div`
