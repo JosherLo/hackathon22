@@ -22,7 +22,10 @@ const MainContainer = styled.div`
 `;
 
 const SelectionPanel = styled.div`
-  width: 80%;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
 `;
 
 const DropdownPanel = styled.div`

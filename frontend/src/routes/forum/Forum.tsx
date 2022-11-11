@@ -48,19 +48,16 @@ export const Forum = () => {
           } }/>
           <MainContainer>
               <SelectionPanel>
-                  <p>hi</p>
-                  <p>hi2</p>
-
-                  {/*<DropdownPanel>*/}
-                  {/*    <StyledSelect SelectDisplayProps={ { style: { paddingTop: 8, paddingBottom: 8 } } } value={ selectedModule }*/}
-                  {/*                  onChange={ e => {*/}
-                  {/*                      setSelectedModule(e.target.value as string);*/}
-                  {/*                  } }>{ modules.map(a => <MenuItem value={ a }>{ a }</MenuItem>) }</StyledSelect>*/}
-                  {/*</DropdownPanel>*/}
-                  {/*<SearchPanel>*/}
-                  {/*    <TextField sx={ { width: 260 } } size={ "small" } onChange={ handleChange } label={ "Search" }*/}
-                  {/*               variant={ "filled" }/>*/}
-                  {/*</SearchPanel>*/}
+                  <DropdownPanel>
+                      <StyledSelect SelectDisplayProps={ { style: { paddingTop: 8, paddingBottom: 8 } } } value={ selectedModule }
+                                    onChange={ e => {
+                                        setSelectedModule(e.target.value as string);
+                                    } }>{ modules.map(a => <MenuItem value={ a }>{ a }</MenuItem>) }</StyledSelect>
+                  </DropdownPanel>
+                  <SearchPanel>
+                      <TextField sx={ { width: 260 } } size={ "small" } onChange={ handleChange } label={ "Search" }
+                                 variant={ "filled" }/>
+                  </SearchPanel>
               </SelectionPanel>
           </MainContainer>
       </Container>
