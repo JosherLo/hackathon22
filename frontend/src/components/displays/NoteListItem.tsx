@@ -1,10 +1,12 @@
 import styled from "@emotion/styled";
 import { Chip } from "@mui/material";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 type NoteProps = {
   name: string,
   tags: string[],
   onClick: Function,
+  delete: Function,
 }
 
 export const NoteListItem = (props: NoteProps) => {
@@ -21,9 +23,16 @@ export const NoteListItem = (props: NoteProps) => {
     <Container onClick={() => props.onClick()}>
       <Title>{props.name}</Title>
       <Description>{chips}</Description>
+      <DeleteIcon onClick={() => props.delete()} sx={{ size: "small" }}/>
     </Container>
   );
 }
+
+const DeleteIcon = styled(DeleteForeverIcon)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`;
 
 const Container = styled.div`
   width: 260px;
@@ -33,6 +42,7 @@ const Container = styled.div`
   border-radius: 15px;
   margin: 2px 10px;
   cursor: pointer;
+  position: relative;
 `;
 
 const Title = styled.p`
