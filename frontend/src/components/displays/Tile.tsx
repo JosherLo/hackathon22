@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 type ProjectTileProps = {
   title: string;
-  description?: string;
+  description: string;
   people: string;
   link: string;
 };
@@ -20,7 +20,7 @@ export const Tile = (props: ProjectTileProps) => {
   );
 };
 
-const Container = styled.div<{showDescription: boolean}>`
+const Container = styled.div<{showDescription: string | null}>`
   width: calc(100vw - 138px);
   height: ${p => p.showDescription ? "80px" : "30px"};
   display: flex;

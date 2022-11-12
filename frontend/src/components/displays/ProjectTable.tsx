@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import luxon from 'luxon';
-import {Checkbox, Table} from "@mui/material";
+import luxon, {DateTime} from 'luxon';
+import {Checkbox, Table, Tooltip} from "@mui/material";
 import { ProjectTimelineDeadline } from "../../utils/global-constants";
 
 const Container = styled.div`
@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 const MainContainer = styled.div`
-  width: 80vw;
+  width: 90vw;
   margin: 80px 0 0 0;
   display: flex;
   flex-direction: column;
@@ -24,15 +24,15 @@ const MainContainer = styled.div`
 
 const HeaderContainer = styled.div`
   width: 100%;
-  padding: 10px;
+  padding-bottom: 10px;
   border-bottom: 3px solid #6d8b9b;
   display: flex;
   flex-direction: row;
 `;
 
 type TextProps = {
-  flex: number;
-  align: string;
+  flex: number,
+  align: string,
 };
 
 const Text = styled.p`
@@ -40,12 +40,21 @@ const Text = styled.p`
   text-align: ${(props: TextProps) => props.align};
 `;
 
+type TooltipProps = {
+  flex: number
+}
+
+const TooltipContainer = styled(Tooltip)`
+  flex: ${(props: TooltipProps) => props.flex};
+`;
+
 type CheckboxProps = {
-  flex: number;
+  flex: number
 };
 
-const CheckboxContainer = styled(Checkbox)`
+const CheckboxContainer = styled.div`
   flex: ${(props: CheckboxProps) => props.flex};
+  display: flex;
   align-items: center;
   justify-content: center;
 `;
@@ -56,13 +65,13 @@ const TableHeader = () => {
       <Text flex={4} align={"left"}>
         Name
       </Text>
-      <Text flex={2} align={"right"}>
+      <Text flex={2} align={"left"}>
         Deadline
       </Text>
-      <Text flex={4} align={"right"}>
+      <Text flex={2} align={"right"}>
         People
       </Text>
-      <Text flex={1} align={"right"}>
+      <Text flex={1} align={"center"}>
         Done
       </Text>
     </HeaderContainer>
@@ -71,9 +80,9 @@ const TableHeader = () => {
 
 const ItemContainer = styled.div`
   width: 100%;
-  padding: 10px;
   display: flex;
   flex-direction: row;
+  align-items: center;
 `;
 
 type ItemProps = {
@@ -87,16 +96,20 @@ type ItemProps = {
 const TableItem = (props: ItemProps) => {
   return (
     <ItemContainer>
-      <Text flex={4} align={"left"}>
-        {props.task}
-      </Text>
-      <Text flex={2} align={"right"}>
-        {props.deadline.toISO()}
+      <TooltipContainer flex={4} title={props.description} placement={"bottom-start"}>
+        <Text flex={4} align={"left"}>
+          {props.task}
+        </Text>
+      </TooltipContainer>
+      <Text flex={2} align={"left"}>
+        {props.deadline.toLocaleString(DateTime.DATETIME_MED)}
       </Text>
       <Text flex={2} align={"right"}>
         {props.people.join(", ")}
       </Text>
-      <CheckboxContainer flex={1} checked={props.completed}/>
+      <CheckboxContainer flex={1}>
+        <Checkbox checked={props.completed}/>
+      </CheckboxContainer>
     </ItemContainer>
   );
 };
@@ -108,14 +121,16 @@ type ProjectTableProps = {
 export const ProjectTable = (props: ProjectTableProps) => {
   return (
     <Container>
-      <TableHeader/>
-      {
-        Object.entries(props.data).map(([key, val]) => {
-          return(
-            <TableItem task={key} deadline={val.deadline} people={val.people} completed={val.completed} description={val.description}/>
-          )
-        })
-      }
+      <MainContainer>
+        <TableHeader/>
+        {
+          Object.entries(props.data).map(([key, val]) => {
+            return(
+              <TableItem task={key} deadline={val.deadline} people={val.people} completed={val.completed} description={val.description}/>
+            )
+          })
+        }
+      </MainContainer>
     </Container>
   )
 };
