@@ -3,26 +3,26 @@ import { Link } from "react-router-dom";
 
 type ProjectTileProps = {
   title: string;
-  description: string;
+  description?: string;
   people: string;
   link: string;
 };
 
 export const Tile = (props: ProjectTileProps) => {
   return (
-    <Container>
+    <Container showDescription={props.description}>
       <TitleDiv>
         <Title to={props.link}>{props.title}</Title>
         <People>{props.people}</People>
       </TitleDiv>
-      <Description>{props.description}</Description>
+        {props.description && <Description>{props.description}</Description>}
     </Container>
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{showDescription: boolean}>`
   width: calc(100vw - 138px);
-  height: 80px;
+  height: ${p => p.showDescription ? "80px" : "30px"};
   display: flex;
   flex-direction: column;
   gap: 10px;

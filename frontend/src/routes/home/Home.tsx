@@ -131,7 +131,6 @@ export const Home = () => {
             link={""}
           />
         </ProjectContainer>
-        <Divider />
         <IconsContainer>
           <MainPageIcons
             icon={<ImportContactsIcon sx={{ width: 100, height: 100 }} />}

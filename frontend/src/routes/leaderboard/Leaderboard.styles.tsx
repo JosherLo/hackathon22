@@ -11,7 +11,7 @@ const Container = styled.div`
 
 const MainContainer = styled.div`
   width: 80vw;
-  margin: 80px 0 0 0;
+  margin: 100px 0 0 0;
   display: flex;
   flex-direction: column;
   justify-content: left;

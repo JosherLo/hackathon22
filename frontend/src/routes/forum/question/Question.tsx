@@ -49,14 +49,24 @@ export default function Question() {
   }, []);
 
   useEffect(() => {
+    // checks if username and password exist and match if not redirect back to home
+    if (!cookies.username || !cookies.password) {
+      navigate("/");
+    } else {
+      // lmao just trust the cookies bro :))))
+    }
+  }, [cookies]);
+
+  useEffect(() => {
     // reorder solution to always be first
     console.log(questionData);
     if (!questionData) return;
 
     const tempAnswers = [...questionData.answers];
     if (questionData.solved)
-      tempAnswers.unshift(tempAnswers.splice(questionData.solveAnswerId, 1));
+      tempAnswers.unshift(tempAnswers.splice(questionData.solveAnswerId, 1)[0]);
 
+    console.log(tempAnswers)
     setAnswers(tempAnswers);
   }, [questionData]);
 
@@ -68,7 +78,6 @@ export default function Question() {
         logout={() => {
           removeCookie("username", { path: "/" });
           removeCookie("password", { path: "/" });
-          navigate("/");
         }}
       />
       <MainContainer>
@@ -144,11 +153,17 @@ export default function Question() {
                         key={`${user} ${answer}`}
                         person={user}
                         description={answer}
-                        showCheck={!questionData.solved}
+                        accepted={questionData.solved && index === 0}
+                        showCheck={questionData.asker === username && !questionData.solved}
                         doOnAccept={() => {
-                          const tempQData = { ...questionData };
-                          tempQData.solveAnswerId = index;
-                          setQuestionData(tempQData);
+                            axios.post(`${apiEndpoint}users/${username}/classes/${className}/questions/${id}/acceptAnswer`, {
+                                answerId: index
+                            }).then(() => {
+                                const tempQData = {...questionData};
+                                tempQData.solveAnswerId = index;
+                                tempQData.solved = true;
+                                setQuestionData(tempQData);
+                            })
                         }}
                       />
                     );

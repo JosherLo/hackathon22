@@ -8,16 +8,21 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  position: relative;
+  overflow-x: hidden;
 `;
 
 const MainContainer = styled.div`
   width: 100vw;
-  margin: 60px 0 0 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
+  position: relative;
+  top: 100px;
+  z-index: 1;
+  overflow-x: hidden;
 `;
 
 const TitleContainer = styled.div`
@@ -44,7 +49,7 @@ const IconsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 80px;
+  gap: 60px;
 `;
 
 export {

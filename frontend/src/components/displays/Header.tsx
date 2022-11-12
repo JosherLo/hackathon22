@@ -3,6 +3,7 @@ import React from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import logoHexagon from "../../assets/logoHexagon.svg";
 import logo from "../../assets/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 type HeaderProps = {
   logoText?: boolean;
@@ -12,9 +13,14 @@ type HeaderProps = {
 };
 
 export const Header = (props: HeaderProps) => {
+
+  const navigate = useNavigate();
+
   return (
     <Container>
-      <LogoDiv>
+      <LogoDiv onClick={() => {
+        navigate("/home");
+      }}>
         <LogoImg src={props.logoText ? logo : logoHexagon} alt={"Logo"} />
       </LogoDiv>
       <Title>{props.title}</Title>
@@ -37,7 +43,7 @@ export const Header = (props: HeaderProps) => {
 
 const Container = styled.div`
   width: 100vw;
-  height: 60px;
+  height: 80px;
   display: flex;
   flex-direction: row;
   position: fixed;
@@ -46,6 +52,7 @@ const Container = styled.div`
   background-color: #202020;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 `;
 
 const Name = styled.p``;
@@ -67,6 +74,7 @@ const LogoDiv = styled.div`
   height: 100%;
   margin-left: 10px;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 const LogoImg = styled.img`

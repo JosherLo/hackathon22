@@ -19,9 +19,11 @@ import { TextField } from "../../components/input/TextField";
 import { Tile } from "../../components/displays/Tile";
 import AddIcon from "@mui/icons-material/Add";
 import { CircleButton } from "../../components/input/CircleButton";
+import { TextFieldProps } from "@mui/material/TextField";
 
 export const Forum = () => {
   const navigate = useNavigate();
+  const [ search, setSearch ] = React.useState("");
   const [cookies, setCookie, removeCookie] = useCookies([
     "username",
     "password",
@@ -46,18 +48,12 @@ export const Forum = () => {
     "PC4132",
   ]);
   const [selectedModule, setSelectedModule] = React.useState<string>("");
-  const [search, setSearch] = React.useState<string>("");
-
   const updateForum = async () => {
     if (selectedModule != "") {
       const res = await axios.get(
         apiEndpoint + "classes/" + selectedModule + "/leaderboard"
       );
     }
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
   };
 
   return (
@@ -68,7 +64,6 @@ export const Forum = () => {
         logout={() => {
           removeCookie("username", { path: "/" });
           removeCookie("password", { path: "/" });
-          navigate("/");
         }}
       />
       <MainContainer>
@@ -95,9 +90,11 @@ export const Forum = () => {
             <TextField
               sx={{ width: 260 }}
               size={"small"}
-              onChange={handleChange}
               label={"Search"}
               variant={"filled"}
+              onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => {
+                setSearch(e.target.value)
+              }}
             />
           </SearchPanel>
         </SelectionPanel>

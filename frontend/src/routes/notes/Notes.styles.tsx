@@ -29,10 +29,10 @@ const Panel = styled.div`
   flex-direction: column;
   gap: 10px;
   position: fixed;
-  top: 60px;
+  top: 80px;
   left: 0;
-  border: 1px solid #6d8b9b;
-  height: calc(100vh - 60px);
+  border: 1px solid black;
+  height: calc(100vh - 80px);
   align-items: center;
   padding: 10px;
 `;
@@ -45,7 +45,7 @@ const StyledSelect = styled(Select)`
 const CodeEditorStyled = styled(MDEditor)`
   width: calc(100vw - 280px);
   position: fixed;
-  height: calc(100vh - 60px);
+  height: 100%;
   overflow: scroll;
 `;
 
@@ -61,7 +61,7 @@ const TagsDiv = styled.div`
 
 const EditorDiv = styled.div`
   width: calc(100vw - 280px);
-  height: calc(100vh - 60px);
+  height: calc(100vh - 80px);
   position: fixed;
   bottom: 0;
   right: 0;
@@ -72,7 +72,7 @@ const NoteItemList = styled.div`
   height: 100%;
   flex-direction: column;
   gap: 4px;
-  justify-content: center;
+  //justify-content: center;
   align-items: center;
   overflow-y: scroll;
   overflow-x: clip;
