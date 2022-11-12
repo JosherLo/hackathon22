@@ -2,6 +2,7 @@ import { Router } from "express"
 import notesRouter from "./notes/notes"
 import fs from "fs"
 import questionsRouter from "./question/questions"
+import projectsRouter from "./projects/projects"
 
 const classesRouter = Router({ mergeParams: true })
 
@@ -25,6 +26,7 @@ classesRouter.use("/:classId", (req, res, next) => {
 })
 classesRouter.use("/:classId/notes", notesRouter)
 classesRouter.use("/:classId/questions", questionsRouter)
+classesRouter.use("/:classId/projects", projectsRouter)
 
 classesRouter.get("/", (req, res) => {
     const studentManifest = JSON.parse(
