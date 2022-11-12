@@ -1,1 +1,7 @@
-{"squiddy":"abc"}
+{
+  "StudentA": "abcdef",
+  "StudentB": "abcdef",
+  "StudentC": "abcdef",
+  "StudentD": "abcdef",
+  "StudentE": "abcdef"
+}
