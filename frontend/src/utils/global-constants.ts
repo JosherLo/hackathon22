@@ -1,10 +1,12 @@
+import { DateTime } from "luxon";
+
 export type Notes = {
   name: string;
   tags: string[];
 };
 
 export type ProjectTimelineDeadline = {
-  deadline: luxon.DateTime,
+  deadline: DateTime,
   description: string,
   people: string[],
   completed: boolean,
