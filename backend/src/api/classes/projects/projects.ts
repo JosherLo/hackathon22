@@ -1,6 +1,5 @@
 import { Router } from "express"
 import fs from "fs"
-import { DateTime } from "luxon"
 
 const projectsRouter = Router({mergeParams: true})
 
@@ -41,6 +40,24 @@ projectsRouter.put("/", (req, res) => {
     fs.writeFileSync(`storage/${classId}/projects.json`, JSON.stringify(projects), {encoding: 'utf8'})
 
     res.sendStatus(200)
+})
+
+projectsRouter.get('/:projectName', (req, res) => {
+    const classId = req.params.classId
+    const user = req.params.username
+    const projectName = req.params.projectName
+
+    const projects = JSON.parse(fs.readFileSync(`storage/${classId}/projects.json`, {encoding: 'utf8'}))
+
+    if (!(projectName in projects)) {
+        return res.sendStatus(404)
+    }
+
+    if (!projects[projectName].includes(user)) {
+        return res.sendStatus(403)
+    }
+
+    res.json({project: projects[projectName]})
 })
 
 projectsRouter.post("/:projectName/join/", (req, res) => {
