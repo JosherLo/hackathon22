@@ -80,7 +80,9 @@ export const Forum = () => {
         setFullQuestions(resp.data.questions);
         const allTags: string[] = [];
         resp.data.questions.forEach((question: { tags: string[] }) => {
-          allTags.push(...question.tags);
+          question.tags.forEach((tag) => {
+            if (!allTags.includes(tag)) allTags.push(tag)
+          })
         });
         setAllTags(allTags);
       });
@@ -249,11 +251,11 @@ export const Forum = () => {
                 <InputAdornment position="end">
                   <IconButton
                     onClick={() => {
-                      const newTagName = newTag.current!.value;
+                      const newTagName = newTag.current!.value as string;
                       const allTagsC = [...allTags];
                       const selectedTagsC = [...selectedTags];
-                      allTagsC.push(newTagName);
-                      selectedTagsC.push(newTagName);
+                      if (!allTagsC.includes(newTagName)) allTagsC.push(newTagName);
+                      if (!selectedTagsC.includes(newTagName)) selectedTagsC.push(newTagName);
                       setAllTags(allTagsC);
                       setSelectedTags(selectedTagsC);
                     }}
