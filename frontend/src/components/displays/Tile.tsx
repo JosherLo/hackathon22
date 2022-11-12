@@ -33,7 +33,7 @@ export const Tile = (props: ProjectTileProps) => {
         })}
         <People>{props.people}</People>
       </TitleDiv>
-      {props.description && <Description>{props.description}</Description>}
+        {props.description && <Description>{props.description}</Description>}
     </Container>
   );
 };

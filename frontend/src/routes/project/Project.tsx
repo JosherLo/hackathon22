@@ -3,10 +3,11 @@ import { Header } from "../../components/displays/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
-import { ProjectTable } from "../../components/displays/ProjectTable";
+import {ProjectTable} from "../../components/displays/ProjectTable";
 import { DateTime } from "luxon";
 
 export const ProjectsPage = () => {
+
   const navigate = useNavigate();
   const { className, id } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -38,7 +39,7 @@ export const ProjectsPage = () => {
       completed: false,
       description: "wwpwpwpwpwpw",
     },
-  };
+  }
 
   useEffect(() => {
     // checks if username and password exist and match if not redirect back to home
@@ -49,17 +50,13 @@ export const ProjectsPage = () => {
 
   return (
     <Container>
-      <Header
-        name={cookies.username ? atob(cookies.username) : ""}
-        logout={() => {
-          removeCookie("username", { path: "/" });
-          removeCookie("password", { path: "/" });
-        }}
-        title={"PROJECT"}
-      />
+      <Header name={cookies.username ? atob(cookies.username) : ""} logout={() => {
+        removeCookie("username", { path: "/" });
+        removeCookie("password", { path: "/" });
+      }} title={"PROJECT"} />
       <MainContainer>
-        <ProjectTable data={data} />
+        <ProjectTable data={data}/>
       </MainContainer>
     </Container>
   );
-};
+}
