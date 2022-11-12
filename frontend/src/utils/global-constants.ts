@@ -4,7 +4,7 @@ export type Notes = {
 };
 
 export type ProjectTimelineDeadline = {
-  deadline: string,
+  deadline: luxon.DateTime,
   description: string,
   people: string[],
   completed: boolean,

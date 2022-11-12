@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import luxon from 'luxon';
 import {Checkbox, Table} from "@mui/material";
+import { ProjectTimelineDeadline } from "../../utils/global-constants";
 
 const Container = styled.div`
   width: 100vw;
@@ -75,7 +76,13 @@ const ItemContainer = styled.div`
   flex-direction: row;
 `;
 
-
+type ItemProps = {
+  task: string,
+  deadline: luxon.DateTime,
+  description: string,
+  people: string[],
+  completed: boolean
+}
 
 const TableItem = (props: ItemProps) => {
   return (
@@ -94,22 +101,18 @@ const TableItem = (props: ItemProps) => {
   );
 };
 
-type ItemProps = {
-  task: string,
-  description: string,
-  deadline: luxon.DateTime,
-  people: string[],
-  completed: boolean
+type ProjectTableProps = {
+  data: {[key: string]: ProjectTimelineDeadline}
 };
 
-export const ProjectTable = (props: {items: ItemProps[]}) => {
+export const ProjectTable = (props: ProjectTableProps) => {
   return (
     <Container>
       <TableHeader/>
       {
-        props.items.map((item) => {
+        Object.entries(props.data).map(([key, val]) => {
           return(
-            <TableItem task={item.task} deadline={item.deadline} people={item.people} completed={item.completed}/>
+            <TableItem task={key} deadline={val.deadline} people={val.people} completed={val.completed} description={val.description}/>
           )
         })
       }
