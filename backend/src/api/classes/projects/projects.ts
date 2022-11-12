@@ -53,7 +53,7 @@ projectsRouter.get('/:projectName', (req, res) => {
         return res.sendStatus(404)
     }
 
-    if (!projects[projectName].includes(user)) {
+    if (!projects[projectName].people.includes(user)) {
         return res.sendStatus(403)
     }
 
