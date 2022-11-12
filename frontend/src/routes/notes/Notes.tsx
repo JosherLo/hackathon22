@@ -216,7 +216,7 @@ export const Notes = () => {
         ) &&
         key
           .split(" ")
-          .some((v) => search.split(" ").some((v2) => v.indexOf(v2) != -1))
+          .some((v) => search.toLowerCase().split(" ").some((v2) => v.toLowerCase().indexOf(v2) != -1))
       );
     });
 
@@ -277,7 +277,7 @@ export const Notes = () => {
     }
 
     setNoteList(items);
-  }, [notes, selectedTags]);
+  }, [notes, selectedTags, search]);
 
   return (
     <Container>
