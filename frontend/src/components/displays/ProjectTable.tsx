@@ -89,7 +89,7 @@ const ItemContainer = styled.div`
 
 type ItemProps = {
   task: string,
-  deadline: luxon.DateTime,
+  deadline: string,
   description: string,
   people: string[],
   completed: boolean,
@@ -100,6 +100,7 @@ const TableItem = (props: ItemProps) => {
 
   const [ checked, setChecked ] = useState(props.completed);
 
+  // @ts-ignore
   return (
     <ItemContainer>
       <TooltipContainer flex={4} title={props.description} placement={"bottom-start"}>
@@ -108,15 +109,15 @@ const TableItem = (props: ItemProps) => {
         </Text>
       </TooltipContainer>
       <Text flex={2} align={"left"}>
-        {props.deadline.toLocaleString(DateTime.DATETIME_MED)}
+        {DateTime.fromISO(props.deadline).toLocaleString(DateTime.DATETIME_MED)}
       </Text>
       <Text flex={2} align={"right"}>
         {props.people.join(", ")}
       </Text>
       <CheckboxContainer flex={1}>
         <Checkbox checked={checked} onChange={(e) => {
-          setChecked(e.target.checked);
-          props.onChecked(e.target.checked);
+          setChecked(true);
+          props.onChecked(true);
         }}/>
       </CheckboxContainer>
     </ItemContainer>

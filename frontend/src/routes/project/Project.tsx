@@ -6,10 +6,11 @@ import React, { useEffect, useRef, useState } from "react";
 import {ProjectTable} from "../../components/displays/ProjectTable";
 import { DateTime } from "luxon";
 import { ProjectTimeline } from "../../components/displays/ProjectTimeline";
-import { ProjectType } from "../../utils/global-constants";
+import { apiEndpoint, ProjectType } from "../../utils/global-constants";
 import { ButtonProgress } from "../../components/input/ButtonProgress";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import DialogContentText from "@mui/material/DialogContentText";
 import { TextField } from "../../components/input/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -20,6 +21,8 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import { TextFieldProps } from "@mui/material/TextField";
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import axios from "axios";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 export const ProjectsPage = () => {
 
@@ -29,63 +32,31 @@ export const ProjectsPage = () => {
     "username",
     "password",
   ]);
-  const [ project, setProject ] = useState<{ [key: string]: ProjectType } | null>(null);
+  const [ project, setProject ] = useState< ProjectType | null>(null);
   const [open, setOpen] = useState(false);
   const [showPass, setShowPass] = useState(false);
   const desc = useRef<TextFieldProps>(null);
   const projName = useRef<TextFieldProps>(null);
+  const [deadline, setDeadline] = useState<DateTime>(DateTime.now());
   const [ people, setPeople ] = useState<string[]>([]);
   const [ checked, setChecked ] = useState<boolean[]>([]);
-
-  useEffect(() => {
-    setProject({
-      "HE Project": {
-        class: "physics y4",
-        people: ["a", "b", "c","d"],
-        description: "This is a description of the project",
-        deadlines: {
-          "do chores": {
-            deadline: DateTime.fromSQL("2017-05-15"), people: ["a", "b", "c"], completed: false, description: "wwpwpwpwpwpw"
-          },
-          "do chores 1": {
-            deadline: DateTime.fromSQL("2017-05-15"), people: ["a", "b", "c"], completed: false, description: "wwpwpwpwpwpw"
-          },
-          "do chores 2": {
-            deadline: DateTime.fromSQL("2017-05-15"), people: ["a", "b", "c"], completed: false, description: "wwpwpwpwpwpw"
-          },
-        }
-      }
-    });
-    setPeople(["a", "b", "c","d"]);
-  }, []);
-
-  const data = {
-    "do chores": {
-      deadline: DateTime.fromSQL("2017-05-15"),
-      people: ["a", "b", "c"],
-      completed: false,
-      description: "wwpwpwpwpwpw",
-    },
-    "do chores 1": {
-      deadline: DateTime.fromSQL("2017-05-15"),
-      people: ["a", "b", "c"],
-      completed: false,
-      description: "wwpwpwpwpwpw",
-    },
-    "do chores 2": {
-      deadline: DateTime.fromSQL("2017-05-15"),
-      people: ["a", "b", "c"],
-      completed: false,
-      description: "wwpwpwpwpwpw",
-    },
-  }
 
   useEffect(() => {
     // checks if username and password exist and match if not redirect back to home
     if (!cookies.username || !cookies.password) {
       navigate("/");
+    } else {
+      updateProject();
     }
   }, [cookies]);
+
+  const updateProject = () => {
+    axios.get(`${ apiEndpoint }users/${ atob(cookies.username) }/classes/${className}/projects/${id}`).then((res) => {
+      setProject(res.data.project);
+      setPeople(res.data.project.people);
+      setChecked(res.data.project.people.map(() => false));
+    });
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -95,8 +66,17 @@ export const ProjectsPage = () => {
     setOpen(false);
   }
 
-  const handleAddTask= () => {
-
+  const handleAddTask = () => {
+    console.log(deadline);
+    axios.put(`${ apiEndpoint }users/${ atob(cookies.username) }/classes/${className}/projects/${id}/tasks`, {
+      name: projName.current!.value,
+      description: desc.current!.value,
+      deadline: deadline.toISO(),
+      people: people.filter((_, i) => checked[i]),
+    }).then((res) => {
+      handleClose();
+      updateProject();
+    });
   }
 
   return (
@@ -109,12 +89,12 @@ export const ProjectsPage = () => {
         <InfoRow>
           <InfoCol>
             <Title>{ Object.entries(project)[0][0] }</Title>
-            <Description>{ Object.entries(project)[0][1].description }</Description>
-            <Description>{ `Class: ${Object.entries(project)[0][1].class}` }</Description>
-            <Description>{ `Members: ${Object.entries(project)[0][1].people.join(", ")}` }</Description>
+            <Description>{ project.description }</Description>
+            <Description>{ `Class: ${className}` }</Description>
+            <Description>{ `Members: ${people.join(", ")}` }</Description>
           </InfoCol>
           <TimelineDiv>
-            <ProjectTimeline data={ Object.entries(project)[0][1].deadlines }/>
+            <ProjectTimeline data={ project.deadlines }/>
           </TimelineDiv>
         </InfoRow>
         <ButtonProgress
@@ -127,9 +107,10 @@ export const ProjectsPage = () => {
           sx={{ width: 260 }}
         />
         <ProjectTable onChecked={(checked: boolean, key: string) => {
-          // axios to set completed
-          // update the project
-        } } data={ Object.entries(project)[0][1].deadlines }/>
+          axios.put(`${ apiEndpoint }users/${ atob(cookies.username) }/classes/${className}/projects/${id}/tasks/${key}/complete`).then(r => {
+            updateProject();
+          });
+        } } data={ project.deadlines }/>
       </MainContainer> }
       <Dialog
         open={open}
@@ -159,15 +140,22 @@ export const ProjectsPage = () => {
             variant={"filled"}
             sx={{ width: 260 }}
           />
-          <TextField
-            id="datetime-local"
-            label="Deadline"
-            type="datetime-local"
-            sx={{ width: 250 }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+          <LocalizationProvider dateAdapter={AdapterLuxon}>
+          <DateTimePicker
+            label="Date&Time picker"
+            value={deadline}
+            onChange={(e) => setDeadline(e!)}
+            renderInput={(params) => <TextField
+              id="datetime-local"
+              label="Deadline"
+              type="datetime-local"
+              sx={{ width: 260 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />}/>
+          </LocalizationProvider>
+
           {
             people.map((person, index) => {
               return (

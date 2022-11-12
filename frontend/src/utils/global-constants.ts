@@ -6,7 +6,7 @@ export type Notes = {
 };
 
 export type ProjectTimelineDeadline = {
-  deadline: DateTime;
+  deadline: string;
   description: string;
   people: string[];
   completed: boolean;

@@ -39,43 +39,58 @@ import { CircleButton } from "../../components/input/CircleButton";
 
 export const Home = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies([
+  const [ cookies, setCookie, removeCookie ] = useCookies([
     "username",
     "password",
   ]);
-  const [open, setOpen] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [openJoinProject, setOpenJoinProject] = useState(false);
+  const [ open, setOpen ] = useState(false);
+  const [ openDialog, setOpenDialog ] = useState(false);
+  const [ openJoinProject, setOpenJoinProject ] = useState(false);
   const password = useRef<TextFieldProps>(null);
   const classname = useRef<TextFieldProps>(null);
   const passwordP = useRef<TextFieldProps>(null);
   const projname = useRef<TextFieldProps>(null);
-  const [showPass, setShowPass] = useState(false);
-  const [infoText, setInfoText] = useState("Please enter your password.");
-  const [modules, setModules] = React.useState<string[]>([]);
-  const [selectedModule, setSelectedModule] = React.useState<string>("");
-  const newMember = useRef<TextFieldProps>(null);
+  const [ showPass, setShowPass ] = useState(false);
+  const [ infoText, setInfoText ] = useState("Please enter your password.");
+  const [ modules, setModules ] = React.useState<string[]>([]);
+  const [ selectedModule, setSelectedModule ] = React.useState<string>("");
   const [ projectName, setProjectName ] = useState("");
   const [ projectDescription, setProjectDescription ] = useState("");
-  const [ deadlines, setDeadlines ] = useState<{[key: string]: ProjectTimelineDeadline}>({});
+  const [ projectPassword, setProjectPassword ] = useState("");
+  const [ projects, setProjects ] = useState({});
 
   useEffect(() => {
     // checks if username and password exist and match if not redirect back to home
-    if (!cookies.username || !cookies.password) {
+    if ( !cookies.username || !cookies.password ) {
       navigate("/");
     } else {
       axios
-        .get(`${apiEndpoint}users/${atob(cookies.username)}/classes`)
+        .get(`${ apiEndpoint }users/${ atob(cookies.username) }/classes`)
         .then((response) => {
-          if (response.data.hasOwnProperty("classes")) {
+          if ( response.data.hasOwnProperty("classes") ) {
             setModules(response.data.classes);
+            updateProjects(response.data.classes);
           }
         });
     }
-  }, [cookies]);
+  }, [ cookies ]);
 
-  const handleOpenJoinProject = () => {
-    setOpenJoinProject(true);
+  const updateProjects = async (mods: string[]) => {
+    for ( let module of mods ) {
+      await axios
+        .get(`${ apiEndpoint }users/${ atob(cookies.username) }/classes/${ module }/projects`)
+        .then(( response ) => {
+          if ( response.data.hasOwnProperty("projects") ) {
+            setProjects(r => {
+              const temp = {...response.data.projects}
+              for (let [key, value] of Object.entries(temp)) {
+                temp[key].class = module;
+              }
+              return { ...r, ...temp }
+            });
+          }
+        });
+    }
   }
 
   const handleCloseJoinProject = () => {
@@ -96,7 +111,18 @@ export const Home = () => {
   };
 
   const handleJoinProject = () => {
-
+    axios.post(`${ apiEndpoint }users/${ atob(cookies.username) }/classes/${ selectedModule }/projects/${projname.current!.value}/join`, {
+      password: passwordP.current!.value,
+    }).then((res) => {
+      handleCloseJoinProject();
+      updateProjects(modules);
+    }).catch((err) => {
+      if ( err.response.status == 404 ) {
+        setInfoText("Project not found.");
+      } else if ( err.response.status == 403 ) {
+        setInfoText("Incorrect password.");
+      }
+    });
   }
 
   const handleCloseProject = () => {
@@ -104,33 +130,42 @@ export const Home = () => {
   };
 
   const handleNewProject = () => {
-
+    axios.put(`${ apiEndpoint }users/${ atob(cookies.username) }/classes/${ selectedModule }/projects`, {
+      name: projectName,
+      description: projectDescription,
+      password: projectPassword,
+    }).then((res) => {
+      handleCloseProject();
+      updateProjects(modules);
+    }).catch((err) => {
+      if (err.response.status == 409) {
+        setInfoText("Project cannot be same name as another project!");
+      }
+    });
   };
-
-
 
 
   const handleJoinClass = () => {
     axios
-      .post(apiEndpoint + `users/${atob(cookies.username)}/joinClass`, {
+      .post(apiEndpoint + `users/${ atob(cookies.username) }/joinClass`, {
         password: password.current!.value,
         class: classname.current!.value,
       })
-      .then((res) => {
+      .then(( res ) => {
         setOpen(false);
         setInfoText("Please enter your password.");
       })
-      .catch((err) => {
-        if (err.response.status == 404) {
+      .catch(( err ) => {
+        if ( err.response.status == 404 ) {
           setInfoText("Class not found.");
-        } else if (err.response.status == 403) {
+        } else if ( err.response.status == 403 ) {
           setInfoText("Incorrect password.");
         }
       });
   };
 
   const handleClickShowPassword = () => {
-    setShowPass((p) => !p);
+    setShowPass(( p ) => !p);
   };
 
   const handleMouseDownPassword = (
@@ -139,134 +174,129 @@ export const Home = () => {
     event.preventDefault();
   };
 
+
+  const projComponents = [];
+
+  for (let [key, val] of Object.entries(projects)) {
+    // @ts-ignore
+    projComponents.push(
+      <Tile
+        title={ key }
+        // @ts-ignore
+        description={ val.description }
+        // @ts-ignore
+        people={ `Members: ${(val.people as string[]).join(", ")}` }
+        // @ts-ignore
+        link={ `/project/${val.class}/${key}` }
+      />
+    )
+  }
+
   return (
     <Container>
       <Header
         logoText
-        title={""}
-        name={cookies.username ? atob(cookies.username) : ""}
-        logout={() => {
+        title={ "" }
+        name={ cookies.username ? atob(cookies.username) : "" }
+        logout={ () => {
           removeCookie("username", { path: "/" });
           removeCookie("password", { path: "/" });
-        }}
+        } }
       />
       <MainContainer>
         <TitleContainer>
-          <UnderlineTitle title={"Your Projects"} />
+          <UnderlineTitle title={ "Your Projects" }/>
           <AddContainer>
-            <CircleButton onClick={() => {
+            <CircleButton onClick={ () => {
               setOpenDialog(true);
-            }} icon={<AddIcon sx={{ width: 25, height: 25 }} />} />
+            } } icon={ <AddIcon sx={ { width: 25, height: 25 } }/> }/>
           </AddContainer>
           <AddContainer>
-            <CircleButton onClick={() => {
+            <CircleButton onClick={ () => {
               setOpenJoinProject(true);
-            }} icon={<TransitEnterexit sx={{ width: 25, height: 25 }} />} />
+            } } icon={ <TransitEnterexit sx={ { width: 25, height: 25 } }/> }/>
           </AddContainer>
         </TitleContainer>
         <ProjectContainer>
-          <Tile
-            title={"Title"}
-            description={"Desc"}
-            people={"(Ppl)"}
-            link={"/project/physics y4/hi"}
-          />
-          <Tile
-            title={"Title"}
-            description={"Desc"}
-            people={"(Ppl)"}
-            link={""}
-          />
-          <Tile
-            title={"Title"}
-            description={"Desc"}
-            people={"(Ppl)"}
-            link={""}
-          />
-          <Tile
-            title={"Title"}
-            description={"Desc"}
-            people={"(Ppl)"}
-            link={""}
-          />
+          {projComponents}
         </ProjectContainer>
         <IconsContainer>
           <MainPageIcons
-            icon={<ImportContactsIcon sx={{ width: 100, height: 100 }} />}
-            title={"Notes"}
-            link={"/notes"}
+            icon={ <ImportContactsIcon sx={ { width: 100, height: 100 } }/> }
+            title={ "Notes" }
+            link={ "/notes" }
           />
           <MainPageIcons
-            icon={<PeopleIcon sx={{ width: 100, height: 100 }} />}
-            title={"Forum"}
-            link={"/forum"}
+            icon={ <PeopleIcon sx={ { width: 100, height: 100 } }/> }
+            title={ "Forum" }
+            link={ "/forum" }
           />
           <MainPageIcons
-            icon={<AssignmentIcon sx={{ width: 100, height: 100 }} />}
-            title={"Leaderboard"}
-            link={"/leaderboard"}
+            icon={ <AssignmentIcon sx={ { width: 100, height: 100 } }/> }
+            title={ "Leaderboard" }
+            link={ "/leaderboard" }
           />
           <MainPageIcons
-            icon={<SchoolIcon sx={{ width: 100, height: 100 }} />}
-            title={"Join class"}
-            onClick={() => {
+            icon={ <SchoolIcon sx={ { width: 100, height: 100 } }/> }
+            title={ "Join class" }
+            onClick={ () => {
               handleOpen();
-            }}
+            } }
           />
         </IconsContainer>
       </MainContainer>
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={ open }
+        onClose={ handleClose }
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">New Note</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Join class</DialogTitle>
         <DialogContent
-          style={{
+          style={ {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             gap: "10px",
-          }}
+          } }
         >
           <DialogContentText id="alert-dialog-description">
-            {infoText}
+            { infoText }
           </DialogContentText>
           <TextField
-            inputRef={classname}
-            label={"CLASS NAME"}
-            variant={"filled"}
-            sx={{ width: 260 }}
+            inputRef={ classname }
+            label={ "CLASS NAME" }
+            variant={ "filled" }
+            sx={ { width: 260 } }
           />
           <TextField
-            type={showPass ? "text" : "password"}
-            inputRef={password}
-            label={"PASSWORD"}
-            variant={"filled"}
-            InputProps={{
+            type={ showPass ? "text" : "password" }
+            inputRef={ password }
+            label={ "PASSWORD" }
+            variant={ "filled" }
+            InputProps={ {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
+                    onClick={ handleClickShowPassword }
+                    onMouseDown={ handleMouseDownPassword }
                     edge="end"
                   >
-                    {showPass ? <VisibilityOff /> : <Visibility />}
+                    { showPass ? <VisibilityOff/> : <Visibility/> }
                   </IconButton>
                 </InputAdornment>
               ),
-            }}
-            sx={{ width: 260 }}
+            } }
+            sx={ { width: 260 } }
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleJoinClass} autoFocus>
+          <Button onClick={ handleJoinClass } autoFocus>
             Ok
           </Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={ handleClose } autoFocus>
             Cancel
           </Button>
         </DialogActions>
@@ -274,57 +304,68 @@ export const Home = () => {
 
 
       <Dialog
-        open={openJoinProject}
-        onClose={handleCloseJoinProject}
+        open={ openJoinProject }
+        onClose={ handleCloseJoinProject }
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">New Note</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Join project</DialogTitle>
         <DialogContent
-          style={{
+          style={ {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             gap: "10px",
-          }}
+          } }
         >
           <DialogContentText id="alert-dialog-description">
-            {infoText}
+            { infoText }
           </DialogContentText>
+          <StyledSelect
+            SelectDisplayProps={ { style: { paddingTop: 8, paddingBottom: 8 } } }
+            value={ selectedModule }
+            onChange={ ( e ) => {
+              setSelectedModule(e.target.value as string);
+            } }
+          >
+            { modules.map(( a ) => (
+              <MenuItem value={ a }>{ a }</MenuItem>
+            )) }
+          </StyledSelect>
           <TextField
-            inputRef={projname}
-            label={"PROJECT NAME"}
-            variant={"filled"}
-            sx={{ width: 260 }}
+            inputRef={ projname }
+            label={ "PROJECT NAME" }
+            variant={ "filled" }
+            sx={ { width: 260 } }
           />
           <TextField
-            type={showPass ? "text" : "password"}
-            inputRef={passwordP}
-            label={"PASSWORD"}
-            variant={"filled"}
-            InputProps={{
+            type={ showPass ? "text" : "password" }
+            inputRef={ passwordP }
+            label={ "PASSWORD" }
+            variant={ "filled" }
+            InputProps={ {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
+                    onClick={ handleClickShowPassword }
+                    onMouseDown={ handleMouseDownPassword }
                     edge="end"
                   >
-                    {showPass ? <VisibilityOff /> : <Visibility />}
+                    { showPass ? <VisibilityOff/> : <Visibility/> }
                   </IconButton>
                 </InputAdornment>
               ),
-            }}
-            sx={{ width: 260 }}
+            } }
+            sx={ { width: 260 } }
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleJoinProject} autoFocus>
+          <Button onClick={ handleJoinProject } autoFocus>
             Ok
           </Button>
-          <Button onClick={handleCloseJoinProject} autoFocus>
+          <Button onClick={ handleCloseJoinProject } autoFocus>
             Cancel
           </Button>
         </DialogActions>
@@ -332,69 +373,69 @@ export const Home = () => {
 
 
       <Dialog
-        open={openDialog}
-        onClose={handleCloseProject}
+        open={ openDialog }
+        onClose={ handleCloseProject }
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">New Project</DialogTitle>
         <DialogContent
-          style={{
+          style={ {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             gap: "10px",
-          }}
+          } }
         >
           <DialogContentText id="alert-dialog-description">
-            {}
+            { }
           </DialogContentText>
           <TextField
-            sx={{ width: 260 }}
-            size={"small"}
-            onChange={(e: {
+            sx={ { width: 260 } }
+            size={ "small" }
+            onChange={ ( e: {
               target: { value: React.SetStateAction<string> };
-            }) => setProjectName(e.target.value)}
-            label={"Name of project"}
-            variant={"filled"}
+            } ) => setProjectName(e.target.value) }
+            label={ "Name of project" }
+            variant={ "filled" }
           />
           <StyledSelect
-            SelectDisplayProps={{ style: { paddingTop: 8, paddingBottom: 8 } }}
-            value={selectedModule}
-            onChange={(e) => {
+            SelectDisplayProps={ { style: { paddingTop: 8, paddingBottom: 8 } } }
+            value={ selectedModule }
+            onChange={ ( e ) => {
               setSelectedModule(e.target.value as string);
-            }}
+            } }
           >
-            {modules.map((a) => (
-              <MenuItem value={a}>{a}</MenuItem>
-            ))}
+            { modules.map(( a ) => (
+              <MenuItem value={ a }>{ a }</MenuItem>
+            )) }
           </StyledSelect>
           <TextField
-            sx={{ width: 260 }}
-            size={"small"}
-            onChange={(e: {
+            sx={ { width: 260 } }
+            size={ "small" }
+            onChange={ ( e: {
               target: { value: React.SetStateAction<string> };
-            }) => setProjectDescription(e.target.value)}
-            label={"Project description"}
-            variant={"filled"}
+            } ) => setProjectDescription(e.target.value) }
+            label={ "Project description" }
+            variant={ "filled" }
           />
           <TextField
-            sx={{ width: 260 }}
-            size={"small"}
-            onChange={(e: {
+            sx={ { width: 260 } }
+            size={ "small" }
+            onChange={ ( e: {
               target: { value: React.SetStateAction<string> };
-            }) => setProjectDescription(e.target.value)}
-            label={"Project password"}
-            variant={"filled"}
+            } ) => setProjectPassword(e.target.value) }
+            label={ "Project password" }
+            variant={ "filled" }
           />
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleNewProject} autoFocus>
+          <Button onClick={ handleNewProject } autoFocus>
             Ok
           </Button>
-          <Button onClick={handleCloseProject} autoFocus>
+          <Button onClick={ handleCloseProject } autoFocus>
             Cancel
           </Button>
         </DialogActions>

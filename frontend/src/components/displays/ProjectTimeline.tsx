@@ -21,8 +21,9 @@ export const ProjectTimeline = (props: ProjectTimelineProps) => {
 
   for (let i = 0; i < Object.entries(props.data).length; i++) {
     const [ key, val ] = Object.entries(props.data)[i];
+    // @ts-ignore
     items.push(<TimelineItem>
-      <TimelineOppositeContent color="text.secondary">{val.deadline.toLocaleString(DateTime.DATETIME_MED)}</TimelineOppositeContent>
+      <TimelineOppositeContent color="text.secondary">{DateTime.fromISO(val.deadline).toLocaleString(DateTime.DATETIME_MED)}</TimelineOppositeContent>
       <TimelineSeparator>
         <TimelineDot color={val.completed ? "success" :"secondary"}/>
         { i < Object.entries(props.data).length - 1 &&  <TimelineConnector/> }
