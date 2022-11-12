@@ -221,6 +221,7 @@ export const Notes = () => {
     });
 
     ooh.sort((a, b) => {
+      console.log(a)
       return notes[a[0]].upVotes.length > notes[b[0]].upVotes.length ? -1 : 1;
     });
 

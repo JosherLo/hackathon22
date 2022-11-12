@@ -1,0 +1,20 @@
+{
+  "London Dispersion Forces": {
+    "tags": [
+      "IMF",
+      "PChem"
+    ],
+    "upVotes": ["StudentA", "StudentB", "StudentC", "StudentD", "StudentE"]
+  },
+  "Kinetics": {
+    "tags": [
+      "Math",
+      "PChem"
+    ],
+    "upVotes": [
+      "StudentA",
+      "StudentD",
+      "StudentE"
+    ]
+  }
+}

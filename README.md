@@ -38,3 +38,11 @@ Each class will have its own leaderboard, which ranks students based on their pa
 
 This system is not meant to be competitive, instead built to incentivise students to actively participate in all aspects of the website.
 
+## Work Distribution Matrix
+
+|          | Backend  | Frontend |  Slides  |
+| :------: | :------: | :------: | :------: |
+| Wenkai   | Yes      | Yes      | No       |
+| Josher   | No       | Yes      | Yes      |
+| Luc      | No       | Yes      | Yes      |
+

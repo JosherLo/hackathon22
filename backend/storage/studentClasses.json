@@ -1,17 +1,1 @@
-{
-  "StudentA": [
-    "CM4132"
-  ],
-  "StudentB": [
-    "CM4132"
-  ],
-  "StudentC": [
-    "CM4132"
-  ],
-  "StudentD": [
-    "CM4132"
-  ],
-  "StudentE": [
-    "CM4132"
-  ]
-}
+{"StudentA":["CM4132","PC4132"],"StudentB":["CM4132","PC4132"],"StudentC":["CM4132","PC4132"],"StudentD":["CM4132","PC4132"],"StudentE":["CM4132","PC4132"]}

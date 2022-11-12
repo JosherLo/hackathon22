@@ -1,0 +1,63 @@
+[
+  {
+    "tags": [
+      "Organic",
+      "Structure"
+    ],
+    "title": "Testing question",
+    "asker": "StudentA",
+    "markdown": "# Why does this happen?",
+    "type": "clarification",
+    "created": "2022-11-12T03:53:32.287+08:00",
+    "upVotes": [
+      "StudentB",
+      "StudentC"
+    ],
+    "solved": true,
+    "solveAnswerId": 0,
+    "answers": [
+      {
+        "user": "StudentD",
+        "answer": "# Answer\n\nBecuase of this."
+      },
+      {
+        "user": "StudentE",
+        "answer": "# Why?\n\nBecause of that."
+      }
+    ]
+  },
+  {
+    "tags": [
+      "Equilibria"
+    ],
+    "title": "Why does this equation work?",
+    "asker": "StudentE",
+    "markdown": "what is 1+2?",
+    "type": "challenge",
+    "answer": "3",
+    "solvers": [
+      ";",
+      "StudentA"
+    ],
+    "created": "2022-11-12T08:09:29.001+08:00",
+    "upVotes": [
+      "squiddy"
+    ]
+  },
+  {
+    "tags": [
+      "help"
+    ],
+    "title": "help",
+    "asker": "squiddy",
+    "markdown": "i need help.",
+    "type": "clarification",
+    "created": "2022-11-12T10:25:00.000+08:00",
+    "upVotes": [
+      "squiddy"
+    ],
+    "solved": false,
+    "solveAnswerId": 0,
+    "answers": []
+  }
+]

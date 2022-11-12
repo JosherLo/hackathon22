@@ -1,0 +1,10 @@
+{
+  "Capacitors": {
+    "tags": ["Circuits", "Electrostatics"],
+    "upVotes": ["StudentA", "StudentD"]
+  },
+  "Magnetostatics": {
+    "tags": ["Magnetostatics", "Current"],
+    "upVotes": ["StudentA", "StudentB", "StudentC", "StudentE"]
+  }
+}
