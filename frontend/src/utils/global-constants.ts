@@ -12,4 +12,11 @@ export type ProjectTimelineDeadline = {
   completed: boolean,
 };
 
+export type ProjectType = {
+  class: string,
+  people: string[],
+  description: string,
+  deadlines: {[key: string]: ProjectTimelineDeadline},
+}
+
 export const apiEndpoint = "http://localhost:8001/";

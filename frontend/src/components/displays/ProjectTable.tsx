@@ -28,6 +28,7 @@ const HeaderContainer = styled.div`
   border-bottom: 3px solid #6d8b9b;
   display: flex;
   flex-direction: row;
+  
 `;
 
 type TextProps = {

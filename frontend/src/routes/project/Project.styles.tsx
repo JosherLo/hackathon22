@@ -21,11 +21,39 @@ const MainContainer = styled.div`
   gap: 20px;
 `;
 
-const Title = styled.p`
+const InfoRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin: 20px 20px 0 20px;
+`;
 
+const InfoCol = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  margin: 20px 0 0 20px;
+`;
+
+const TimelineDiv = styled.div`
+  flex: 1;
+`;
+
+const Title = styled.p`
+  font-size: 36px;
+`;
+
+const Description = styled.p`
+  font-size: 18px;
 `;
 
 export {
   Container,
   MainContainer,
+  InfoRow,
+  InfoCol,
+  Title,
+  Description,
+  TimelineDiv,
 }
