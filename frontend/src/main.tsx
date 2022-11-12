@@ -39,6 +39,10 @@ const router = createBrowserRouter([
     element: <Question />,
   },
   {
+    path: "project/:className/:id",
+    element
+  },
+  {
     path: "*", // catches all paths that are not matched yet
     element: <Login />,
   },

@@ -72,7 +72,6 @@ export const Leaderboard = () => {
         logout={() => {
           removeCookie("username", { path: "/" });
           removeCookie("password", { path: "/" });
-          navigate("/");
         }}
       />
       <MainContainer>

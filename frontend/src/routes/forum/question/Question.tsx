@@ -49,6 +49,15 @@ export default function Question() {
   }, []);
 
   useEffect(() => {
+    // checks if username and password exist and match if not redirect back to home
+    if (!cookies.username || !cookies.password) {
+      navigate("/");
+    } else {
+      // lmao just trust the cookies bro :))))
+    }
+  }, [cookies]);
+
+  useEffect(() => {
     // reorder solution to always be first
     console.log(questionData);
     if (!questionData) return;
@@ -68,7 +77,6 @@ export default function Question() {
         logout={() => {
           removeCookie("username", { path: "/" });
           removeCookie("password", { path: "/" });
-          navigate("/");
         }}
       />
       <MainContainer>

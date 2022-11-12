@@ -13,13 +13,13 @@ const Container = styled.div`
 
 const MainContainer = styled.div`
   width: 100vw;
-  margin: 60px 0 0 0;
+  //margin: 60px 0 0 0;
+  top: 80px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 20px;
-  position: fixed;
+  position: absolute;
 `;
 
 const TopPanel = styled.div`
@@ -41,6 +41,7 @@ const SelectionPanel = styled.div`
   flex-direction: row;
   align-items: baseline;
   border-bottom: 3px solid #6d8b9b;
+  position: fixed;
 `;
 
 const DropdownPanel = styled.div`
@@ -69,6 +70,9 @@ const ForumContainer = styled.div`
   gap: 10px;
   overflow-y: scroll;
   overflow-x: clip;
+  top: 100px;
+  position: absolute;
+  height: calc(100vh - 100px - 80px);
 `;
 
 export {
