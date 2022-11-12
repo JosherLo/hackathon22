@@ -3,6 +3,8 @@ import { Header } from "../../components/displays/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
+import {ProjectTable} from "../../components/displays/ProjectTable";
+import luxon from "luxon";
 
 const Project = () => {
 
@@ -12,6 +14,11 @@ const Project = () => {
     "username",
     "password",
   ]);
+
+  const data = [
+    {task: "do chores", deadline: luxon.DateTime.fromSQL("2017-05-15"), people: ["a", "b", "c"], completed: false},
+    {task: "do chores", deadline: luxon.DateTime.fromSQL("2017-05-15"), people: ["a", "b", "c"], completed: true}
+  ]
 
   useEffect(() => {
     // checks if username and password exist and match if not redirect back to home
@@ -27,7 +34,7 @@ const Project = () => {
         removeCookie("password", { path: "/" });
       }} title={"PROJECT"} />
       <MainContainer>
-
+        <ProjectTable items={data}/>
       </MainContainer>
     </Container>
   );
