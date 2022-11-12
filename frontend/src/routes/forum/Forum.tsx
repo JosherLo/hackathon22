@@ -198,7 +198,7 @@ export const Forum = () => {
             SelectDisplayProps={{ style: { paddingTop: 8, paddingBottom: 8 } }}
             value={currentType}
             onChange={(e) => {
-              setCurrentType(e.target.value);
+              setCurrentType(e.target.value.toLowerCase());
             }}
           >
             <MenuItem value={"Clarification"}>Clarification</MenuItem>
