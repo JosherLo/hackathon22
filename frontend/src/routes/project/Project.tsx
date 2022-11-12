@@ -3,8 +3,9 @@ import { Header } from "../../components/displays/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
+import { ProjectTimeline } from "../../components/displays/ProjectTimeline";
 
-const Project = () => {
+export const ProjectsPage = () => {
 
   const navigate = useNavigate();
   const { className, id } = useParams();
@@ -27,7 +28,6 @@ const Project = () => {
         removeCookie("password", { path: "/" });
       }} title={"PROJECT"} />
       <MainContainer>
-
       </MainContainer>
     </Container>
   );

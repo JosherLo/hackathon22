@@ -110,7 +110,7 @@ export const Home = () => {
             title={"Title"}
             description={"Desc"}
             people={"(Ppl)"}
-            link={"/"}
+            link={"/project/physics y4/hi"}
           />
           <Tile
             title={"Title"}
