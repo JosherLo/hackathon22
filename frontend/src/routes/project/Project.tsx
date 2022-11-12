@@ -172,9 +172,13 @@ export const ProjectsPage = () => {
             people.map((person, index) => {
               return (
                 <FormControlLabel control={ <Checkbox checked={checked[index]} onChange={(e) => {
-                  set
-                }}/> } label="Label"/>
-              );
+                  setChecked((t) => {
+                    const temp = [...t];
+                    temp[index] = e.target.checked;
+                    return temp;
+                  });
+                }} /> } label={person} />
+              )
             })
           }
         </DialogContent>
