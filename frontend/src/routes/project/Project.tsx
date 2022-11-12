@@ -67,14 +67,16 @@ export const ProjectsPage = () => {
   }
 
   const handleAddTask = () => {
-    console.log(deadline);
+    console.log(people.filter((_, i) => checked[i]));
     axios.put(`${ apiEndpoint }users/${ atob(cookies.username) }/classes/${className}/projects/${id}/tasks`, {
       name: projName.current!.value,
       description: desc.current!.value,
       deadline: deadline.toISO(),
-      people: people.filter((_, i) => checked[i]),
-    }).then((res) => {
+    }).then(async (res) => {
       handleClose();
+      for (let person of people.filter((_, i) => checked[i])) {
+        await axios.put(`${ apiEndpoint }users/${ person }/classes/${className}/projects/${id}/tasks/${projName.current!.value}/join`);
+      }
       updateProject();
     });
   }
