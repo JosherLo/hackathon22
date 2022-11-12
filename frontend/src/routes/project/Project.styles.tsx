@@ -17,11 +17,13 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  //align-items: center;
+  align-items: center;
   gap: 20px;
+  overflow-x: hidden;
 `;
 
 const InfoRow = styled.div`
+  width: calc(100vw - 80px);
   display: flex;
   flex-direction: row;
   gap: 20px;

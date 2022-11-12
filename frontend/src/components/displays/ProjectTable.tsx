@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import luxon, {DateTime} from 'luxon';
 import {Checkbox, Table, Tooltip} from "@mui/material";
 import { ProjectTimelineDeadline } from "../../utils/global-constants";
+import { useState } from "react";
 
 const Container = styled.div`
   width: 100vw;
@@ -91,10 +92,14 @@ type ItemProps = {
   deadline: luxon.DateTime,
   description: string,
   people: string[],
-  completed: boolean
+  completed: boolean,
+  onChecked: Function,
 }
 
 const TableItem = (props: ItemProps) => {
+
+  const [ checked, setChecked ] = useState(props.completed);
+
   return (
     <ItemContainer>
       <TooltipContainer flex={4} title={props.description} placement={"bottom-start"}>
@@ -109,14 +114,18 @@ const TableItem = (props: ItemProps) => {
         {props.people.join(", ")}
       </Text>
       <CheckboxContainer flex={1}>
-        <Checkbox checked={props.completed}/>
+        <Checkbox checked={checked} onChange={(e) => {
+          setChecked(e.target.checked);
+          props.onChecked(e.target.checked);
+        }}/>
       </CheckboxContainer>
     </ItemContainer>
   );
 };
 
 type ProjectTableProps = {
-  data: {[key: string]: ProjectTimelineDeadline}
+  data: {[key: string]: ProjectTimelineDeadline},
+  onChecked: Function,
 };
 
 export const ProjectTable = (props: ProjectTableProps) => {
@@ -127,7 +136,9 @@ export const ProjectTable = (props: ProjectTableProps) => {
         {
           Object.entries(props.data).map(([key, val]) => {
             return(
-              <TableItem task={key} deadline={val.deadline} people={val.people} completed={val.completed} description={val.description}/>
+              <TableItem onChecked={(c: boolean) => {
+                props.onChecked(c, key);
+              }} task={key} deadline={val.deadline} people={val.people} completed={val.completed} description={val.description}/>
             )
           })
         }

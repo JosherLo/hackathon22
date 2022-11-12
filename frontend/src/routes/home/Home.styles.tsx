@@ -30,6 +30,7 @@ const TitleContainer = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+  flex-direction: row;
 `;
 
 const ProjectContainer = styled.div`
@@ -42,6 +43,16 @@ const ProjectContainer = styled.div`
   overflow-x: clip;
 `;
 
+const TagsDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 7px;
+  width: 300px;
+  align-items: center;
+  justify-content: center;
+`;
+
 const IconsContainer = styled.div`
   border-top: 3px solid #6d8b9b;
   padding-top: 50px;
@@ -52,10 +63,19 @@ const IconsContainer = styled.div`
   gap: 60px;
 `;
 
+const AddContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 30px;
+`;
+
 export {
   Container,
   MainContainer,
   ProjectContainer,
   IconsContainer,
   TitleContainer,
+  TagsDiv,
+  AddContainer,
 };
