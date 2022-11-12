@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import luxon from 'luxon';
-import {Checkbox, Table} from "@mui/material";
+import luxon from "luxon";
+import { Checkbox, Table } from "@mui/material";
 import { ProjectTimelineDeadline } from "../../utils/global-constants";
 
 const Container = styled.div`
@@ -77,12 +77,12 @@ const ItemContainer = styled.div`
 `;
 
 type ItemProps = {
-  task: string,
-  deadline: luxon.DateTime,
-  description: string,
-  people: string[],
-  completed: boolean
-}
+  task: string;
+  deadline: luxon.DateTime;
+  description: string;
+  people: string[];
+  completed: boolean;
+};
 
 const TableItem = (props: ItemProps) => {
   return (
@@ -96,26 +96,30 @@ const TableItem = (props: ItemProps) => {
       <Text flex={2} align={"right"}>
         {props.people.join(", ")}
       </Text>
-      <CheckboxContainer flex={1} checked={props.completed}/>
+      <CheckboxContainer flex={1} checked={props.completed} />
     </ItemContainer>
   );
 };
 
 type ProjectTableProps = {
-  data: {[key: string]: ProjectTimelineDeadline}
+  data: { [key: string]: ProjectTimelineDeadline };
 };
 
 export const ProjectTable = (props: ProjectTableProps) => {
   return (
     <Container>
-      <TableHeader/>
-      {
-        Object.entries(props.data).map(([key, val]) => {
-          return(
-            <TableItem task={key} deadline={val.deadline} people={val.people} completed={val.completed} description={val.description}/>
-          )
-        })
-      }
+      <TableHeader />
+      {Object.entries(props.data).map(([key, val]) => {
+        return (
+          <TableItem
+            task={key}
+            deadline={val.deadline}
+            people={val.people}
+            completed={val.completed}
+            description={val.description}
+          />
+        );
+      })}
     </Container>
-  )
+  );
 };

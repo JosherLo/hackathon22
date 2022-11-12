@@ -13,14 +13,15 @@ type HeaderProps = {
 };
 
 export const Header = (props: HeaderProps) => {
-
   const navigate = useNavigate();
 
   return (
     <Container>
-      <LogoDiv onClick={() => {
-        navigate("/home");
-      }}>
+      <LogoDiv
+        onClick={() => {
+          navigate("/home");
+        }}
+      >
         <LogoImg src={props.logoText ? logo : logoHexagon} alt={"Logo"} />
       </LogoDiv>
       <Title>{props.title}</Title>

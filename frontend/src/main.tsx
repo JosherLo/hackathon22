@@ -41,7 +41,7 @@ const router = createBrowserRouter([
   },
   {
     path: "project/:className/:id",
-    element: <ProjectsPage />
+    element: <ProjectsPage />,
   },
   {
     path: "*", // catches all paths that are not matched yet

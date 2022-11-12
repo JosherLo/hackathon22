@@ -21,11 +21,6 @@ const MainContainer = styled.div`
   gap: 20px;
 `;
 
-const Title = styled.p`
+const Title = styled.p``;
 
-`;
-
-export {
-  Container,
-  MainContainer,
-}
+export { Container, MainContainer };

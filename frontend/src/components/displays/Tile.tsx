@@ -1,28 +1,54 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import { Chip } from "@mui/material";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 type ProjectTileProps = {
   title: string;
   description?: string;
   people: string;
   link: string;
+  tags?: string[];
+  upvote?: boolean;
+  noUpvote?: number;
 };
 
 export const Tile = (props: ProjectTileProps) => {
+  const tags = props.tags || [];
+
   return (
-    <Container showDescription={props.description}>
+    <Container showDescription={!!props.description}>
       <TitleDiv>
-        <Title to={props.link}>{props.title}</Title>
+        {props.upvote && (
+          <UpvoteDiv>
+            <ArrowUpwardIcon fontSize="inherit" htmlColor={"#FF8b60"} />
+            <p>{props.noUpvote}</p>
+          </UpvoteDiv>
+        )}
+        <Title to={props.link}>
+          <p>{props.title}</p>
+        </Title>
+        {tags.map((tag) => {
+          return <Chip key={tag} label={tag} />;
+        })}
         <People>{props.people}</People>
       </TitleDiv>
-        {props.description && <Description>{props.description}</Description>}
+      {props.description && <Description>{props.description}</Description>}
     </Container>
   );
 };
 
-const Container = styled.div<{showDescription: boolean}>`
+const UpvoteDiv = styled.div`
+  font-size: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Container = styled.div<{ showDescription: boolean }>`
   width: calc(100vw - 138px);
-  height: ${p => p.showDescription ? "80px" : "30px"};
+  height: ${(p) => (p.showDescription ? "80px" : "40px")};
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -34,7 +60,8 @@ const Container = styled.div<{showDescription: boolean}>`
 const TitleDiv = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 5px;
+  align-items: center;
 `;
 
 const Title = styled(Link)`

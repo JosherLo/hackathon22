@@ -12,8 +12,8 @@ const Container = styled.div`
 
 const MainContainer = styled.div`
   width: 100vw;
-  height: calc(100vh - 100px);
-  margin: 60px 0 0 0;
+  height: calc(100vh - 120px);
+  margin: 80px 0 0 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -55,6 +55,14 @@ const Content = styled.div`
   border-radius: 5px;
 `;
 
+const AnswerSubmitDiv = styled.div`
+  display: flex;
+  width: 80vw;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+`;
+
 export {
   Container,
   MainContainer,
@@ -63,4 +71,5 @@ export {
   AnswerHeader,
   AnswerDiv,
   UpvoteContainer,
+  AnswerSubmitDiv,
 };

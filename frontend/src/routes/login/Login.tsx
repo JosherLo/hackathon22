@@ -1,4 +1,4 @@
-import {LoginContainer, LogoDiv, LogoImg} from "./Login.styles";
+import { LoginContainer, LogoDiv, LogoImg } from "./Login.styles";
 import { ButtonProgress } from "../../components/input/ButtonProgress";
 import React, { useEffect, useRef, useState } from "react";
 import { TextField } from "../../components/input/TextField";
