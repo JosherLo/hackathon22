@@ -61,13 +61,22 @@ export const ProjectsPage = () => {
 
   const data = {
     "do chores": {
-      deadline: DateTime.fromSQL("2017-05-15"), people: ["a", "b", "c"], completed: false, description: "wwpwpwpwpwpw"
+      deadline: DateTime.fromSQL("2017-05-15"),
+      people: ["a", "b", "c"],
+      completed: false,
+      description: "wwpwpwpwpwpw",
     },
     "do chores 1": {
-      deadline: DateTime.fromSQL("2017-05-15"), people: ["a", "b", "c"], completed: false, description: "wwpwpwpwpwpw"
+      deadline: DateTime.fromSQL("2017-05-15"),
+      people: ["a", "b", "c"],
+      completed: false,
+      description: "wwpwpwpwpwpw",
     },
     "do chores 2": {
-      deadline: DateTime.fromSQL("2017-05-15"), people: ["a", "b", "c"], completed: true, description: "wwpwpwpwpwpw"
+      deadline: DateTime.fromSQL("2017-05-15"),
+      people: ["a", "b", "c"],
+      completed: false,
+      description: "wwpwpwpwpwpw",
     },
   }
 

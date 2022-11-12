@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   AnswerDiv,
   AnswerHeader,
+  AnswerSubmitDiv,
   Container,
   Content,
   MainContainer,
@@ -10,7 +11,7 @@ import {
   UpvoteContainer,
 } from "./Question.styles";
 import { useCookies } from "react-cookie";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { apiEndpoint } from "../../../utils/global-constants";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
@@ -25,6 +26,7 @@ import Dialog from "@mui/material/Dialog";
 import { TextFieldProps } from "@mui/material/TextField";
 import { AnswerTile } from "../../../components/displays/AnswerTile";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { Alert } from "@mui/material";
 
 export default function Question() {
   const navigate = useNavigate();
@@ -33,10 +35,14 @@ export default function Question() {
     "username",
     "password",
   ]);
-  const [username, password] = [atob(cookies.username), atob(cookies.password)];
+  let [username, password] = ["", ""];
+  if (cookies.username && cookies.password) {
+    [username, password] = [atob(cookies.username), atob(cookies.password)];
+  }
   const [questionData, setQuestionData] = useState<any | undefined>(undefined);
   const [openAnswerDialog, setOpenAnswerDialog] = useState(false);
   const [answers, setAnswers] = useState<any[]>([]);
+  const [currentAlert, setCurrentAlert] = useState("none");
   const answerContent = useRef<TextFieldProps>(null);
 
   useEffect(() => {
@@ -60,13 +66,13 @@ export default function Question() {
   useEffect(() => {
     // reorder solution to always be first
     console.log(questionData);
-    if (!questionData) return;
+    if (!questionData || !questionData.answers) return;
 
     const tempAnswers = [...questionData.answers];
     if (questionData.solved)
       tempAnswers.unshift(tempAnswers.splice(questionData.solveAnswerId, 1)[0]);
 
-    console.log(tempAnswers)
+    console.log(tempAnswers);
     setAnswers(tempAnswers);
   }, [questionData]);
 
@@ -88,7 +94,10 @@ export default function Question() {
                 {questionData.type === "clarification"
                   ? "Question"
                   : "Challenge"}
-                : {questionData.title}
+                : {questionData.title}{" "}
+                {questionData.type !== "clarification" &&
+                  questionData.asker !== username &&
+                  (questionData.solvers.includes(username) ? "✔" : "❌")}
               </div>
               <UpvoteContainer>
                 <ArrowUpwardIcon
@@ -154,16 +163,24 @@ export default function Question() {
                         person={user}
                         description={answer}
                         accepted={questionData.solved && index === 0}
-                        showCheck={questionData.asker === username && !questionData.solved}
+                        showCheck={
+                          questionData.asker === username &&
+                          !questionData.solved
+                        }
                         doOnAccept={() => {
-                            axios.post(`${apiEndpoint}users/${username}/classes/${className}/questions/${id}/acceptAnswer`, {
-                                answerId: index
-                            }).then(() => {
-                                const tempQData = {...questionData};
-                                tempQData.solveAnswerId = index;
-                                tempQData.solved = true;
-                                setQuestionData(tempQData);
-                            })
+                          axios
+                            .post(
+                              `${apiEndpoint}users/${username}/classes/${className}/questions/${id}/acceptAnswer`,
+                              {
+                                answerId: index,
+                              }
+                            )
+                            .then(() => {
+                              const tempQData = { ...questionData };
+                              tempQData.solveAnswerId = index;
+                              tempQData.solved = true;
+                              setQuestionData(tempQData);
+                            });
                         }}
                       />
                     );
@@ -173,7 +190,65 @@ export default function Question() {
                 )}
               </>
             ) : (
-              <></>
+              <>
+                <em style={{ fontSize: "0.75em" }}>
+                  solved by
+                  {questionData.solvers.length > 0
+                    ? ": " + questionData.solvers.join(", ")
+                    : " no one"}
+                </em>
+                {questionData.asker !== username &&
+                !questionData.solvers.includes(username) ? (
+                  <>
+                    <AnswerDiv>
+                      <AnswerHeader>Submit an Answer</AnswerHeader>
+                    </AnswerDiv>
+                    <AnswerSubmitDiv>
+                      <TextField
+                        inputRef={answerContent}
+                        fillWidth
+                        placeholder={"enter answer..."}
+                      />
+                      <Button
+                        onClick={() => {
+                          const answer = answerContent.current!.value;
+                          axios
+                            .post(
+                              `${apiEndpoint}users/${username}/classes/${className}/questions/${id}/solve`,
+                              {
+                                answer,
+                              }
+                            )
+                            .then((resp) => {
+                              setCurrentAlert("solve");
+                              const tempQData = { ...questionData };
+                              tempQData.solvers = [...tempQData.solvers];
+                              tempQData.solvers.push(username);
+                              setQuestionData(tempQData);
+                              setTimeout(() => {
+                                setCurrentAlert("none");
+                              }, 2000);
+                            })
+                            .catch((err: AxiosError) => {
+                              if (err.response?.status === 406) {
+                                setCurrentAlert("wrong answer");
+                                setTimeout(() => {
+                                  setCurrentAlert("none");
+                                }, 2000);
+                              }
+                            });
+                        }}
+                      >
+                        Submit
+                      </Button>
+                    </AnswerSubmitDiv>
+                  </>
+                ) : (
+                  <p>
+                    Answer is <b>{questionData.answer}</b>
+                  </p>
+                )}
+              </>
             )}
           </>
         )}
@@ -241,6 +316,16 @@ export default function Question() {
           </Button>
         </DialogActions>
       </Dialog>
+      {currentAlert === "solve" && (
+        <Alert sx={{ position: "fixed", bottom: "5px" }} severity={"success"}>
+          Correct!
+        </Alert>
+      )}
+      {currentAlert === "wrong answer" && (
+        <Alert sx={{ position: "fixed", bottom: "5px" }} severity={"error"}>
+          Wrong answer!
+        </Alert>
+      )}
     </Container>
   );
 }

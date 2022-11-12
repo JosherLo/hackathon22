@@ -14,13 +14,12 @@ export const AnswerTile = (props: AnswerTileProps) => {
     <Container accepted={props.accepted}>
       <TitleDiv>
         <Title>{props.person}</Title>
-          <People>
-        {(props.showCheck && (
-
+        <People>
+          {(props.showCheck && (
             <CheckIcon cursor={"pointer"} onClick={props.doOnAccept} />
-
-        )) || props.accepted && <em>(accepted)</em>}
-          </People>
+          )) ||
+            (props.accepted && <em>(accepted)</em>)}
+        </People>
       </TitleDiv>
       <Description>"{props.description}"</Description>
     </Container>

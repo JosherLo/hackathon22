@@ -6,7 +6,7 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 20px;
 `;
@@ -42,6 +42,17 @@ const SelectionPanel = styled.div`
   align-items: baseline;
   border-bottom: 3px solid #6d8b9b;
   position: fixed;
+`;
+
+const TagsDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  column-gap: 10px;
+  row-gap: 7px;
+  width: 300px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const DropdownPanel = styled.div`
@@ -84,4 +95,5 @@ export {
   StyledSelect,
   SearchPanel,
   ForumContainer,
+  TagsDiv,
 };

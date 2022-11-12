@@ -38,7 +38,7 @@ questionsRouter.put("/", (req, res) => {
         upVotes: [user],
     }
 
-    if (bodyData.type === "question") {
+    if (bodyData.type === "challenge") {
         question = {
             ...question,
             answer: bodyData.answer,

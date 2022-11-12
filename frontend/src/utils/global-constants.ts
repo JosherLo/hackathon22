@@ -6,10 +6,10 @@ export type Notes = {
 };
 
 export type ProjectTimelineDeadline = {
-  deadline: DateTime,
-  description: string,
-  people: string[],
-  completed: boolean,
+  deadline: DateTime;
+  description: string;
+  people: string[];
+  completed: boolean;
 };
 
 export type ProjectType = {
