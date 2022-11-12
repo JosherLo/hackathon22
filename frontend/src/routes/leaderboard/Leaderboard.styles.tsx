@@ -93,7 +93,7 @@ const LeaderboardList = styled.table`
   flex-direction: column;
   margin-top: 10px;
   padding: 20px 40px;
-  width: 100%;
+  width: 90%;
   border: 3px solid #6d8b9b;
   border-radius: 20px;
   justify-content: center;

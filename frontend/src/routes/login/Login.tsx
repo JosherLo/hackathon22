@@ -1,10 +1,10 @@
-import { LoginContainer } from "./Login.styles";
+import {LoginContainer, LogoDiv, LogoImg} from "./Login.styles";
 import { ButtonProgress } from "../../components/input/ButtonProgress";
 import React, { useEffect, useRef, useState } from "react";
 import { TextField } from "../../components/input/TextField";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import TextFieldProps from "@mui/material/TextFieldProps";
+import { TextFieldProps } from "@mui/material/TextField";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useCookies } from "react-cookie";
@@ -16,6 +16,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import logo from "../../assets/logo.svg";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -58,6 +59,9 @@ export const Login = () => {
 
   return (
     <LoginContainer>
+      <LogoDiv>
+        <LogoImg src={logo} alt={"Logo"} />
+      </LogoDiv>
       <TextField
         inputRef={name}
         label={"NAME"}
